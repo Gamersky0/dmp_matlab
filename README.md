@@ -4,4 +4,4 @@ The simulation matlab code for paper of "Coupled Multiple Dynamics Movement Prim
 
 1.load the 'Model_3D_Data.mat' 2.run simulink file 'Model_3D.slx' 3.run script file 'Model_3D_file.m'
 
-The result is the trajectory for the dual-arm 3D cooperative manipulation
+The result is the trajectory for the dual-arm 3D cooperative manipulation.
