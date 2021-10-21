@@ -1,4 +1,4 @@
-# RAL_Matlab
+# RALMatlab
 
 The simulation matlab code for paper of "Coupled Multiple Dynamics Movement Primitives Generalization for Deformable Object Manipulation "
 
