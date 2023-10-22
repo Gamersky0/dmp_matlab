@@ -56,7 +56,8 @@ hold on
 surf(x, y, z)
 axis equal
 
- title('Coupled DMP generalization in 3D');
+
+title('Coupled DMP generalization in 3D');
 ax = gca;
 ax.FontSize = 16; 
 xlabel('X') 
@@ -75,7 +76,7 @@ plot3(out.simout_right_true_demo.Data(:,1),out.simout_right_true_demo.Data(:,2),
 hold on
 plot3(out.simout_left_true_demo.Data(:,1),out.simout_left_true_demo.Data(:,2),out.simout_left_true_demo.Data(:,3),'g:','LineWidth',2 );
 view(8,29)
- 
+
  
 
  
