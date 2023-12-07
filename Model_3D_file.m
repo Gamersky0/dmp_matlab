@@ -8,7 +8,7 @@ tau1=3;
 left_0=[0 0 0];
 x1_0=[0 0.2 0]; 
 x2_0=[0 0.4 0];
-right_0=[0 0.6 0];     
+right_0=[0 0.6 0];
 
 
 %right low
@@ -76,11 +76,4 @@ plot3(out.simout_right_true_demo.Data(:,1),out.simout_right_true_demo.Data(:,2),
 hold on
 plot3(out.simout_left_true_demo.Data(:,1),out.simout_left_true_demo.Data(:,2),out.simout_left_true_demo.Data(:,3),'g:','LineWidth',2 );
 view(8,29)
-
- 
-
- 
-
-
-
  
