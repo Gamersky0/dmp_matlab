@@ -3,9 +3,9 @@
 //
 // Code generated for Simulink model 'single_dmp_test'.
 //
-// Model version                  : 1.4
+// Model version                  : 1.5
 // Simulink Coder version         : 9.4 (R2020b) 29-Jul-2020
-// C/C++ source code generated on : Thu Oct 26 15:21:12 2023
+// C/C++ source code generated on : Thu Dec  7 13:55:38 2023
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Intel->x86-64 (Windows64)
@@ -19,6 +19,10 @@
 #include "single_dmp_test.h"           // Model's header file
 #include "rtwtypes.h"
 #include <iostream>
+#include <chrono>
+#include <thread>
+#include <cmath>
+#include <string>
 
 static SignalDmp rtObj;                // Instance of model class
 
@@ -26,10 +30,22 @@ static SignalDmp rtObj;                // Instance of model class
 static real_T arg_l_position_initial[3] = { 0.0, 0.0, 0.0 };
 
 // '<Root>/l_position_goal'
-static real_T arg_l_position_goal[3] = { -1.0, 1.0, 2.0 };
+static real_T arg_l_position_goal[3] = { 5.0, -10.0, 10.0 };
 
 // '<Root>/l_position_current'
 static real_T arg_l_position_current[3];
+
+static real64_T minimum_error = 0.01;
+
+std::string message_from_simulation;
+std::string response_to_simulation;
+
+bool reach_goal(static real_T* arg_l_position_current, static real_T* arg_l_position_goal) {
+    real_T abs_error = std::abs(arg_l_position_current[0] - arg_l_position_goal[0]) +
+                       std::abs(arg_l_position_current[1] - arg_l_position_goal[1]) +
+                       std::abs(arg_l_position_current[2] - arg_l_position_goal[2]);
+    return abs_error < minimum_error;
+}
 
 //
 // Associating rt_OneStep with a real-time clock or interrupt service routine
@@ -62,10 +78,27 @@ void rt_OneStep(void)
   // Set model inputs here
 
   // Step the model for base rate
+  // arg_l_position_current为传出参数，arg_l_position_initial和arg_l_position_goal为传入参数
   rtObj.step(arg_l_position_current, arg_l_position_initial, arg_l_position_goal);
 
-  // Debug:
-  std::cout << " position: " << arg_l_position_current[0] << "  " << arg_l_position_current[1] << "  " << arg_l_position_current[2] << std::endl;
+  // 传出position
+  std::cout << "position: " << arg_l_position_current[0] << "  " << arg_l_position_current[1] << "  " << arg_l_position_current[2] << std::endl;
+  std::cout.flush();
+  // std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+  // 传入observation ，阻塞
+  std::getline(std::cin, message_from_simulation);
+
+  // 分析observation
+  if (message_from_simulation == "exit") {
+      return;
+  }
+  
+
+  // Reach the goal_position and exit
+  if (reach_goal(arg_l_position_current, arg_l_position_goal)){
+      return;
+  }
 
   // Get model outputs here
 
@@ -91,6 +124,8 @@ int_T main(int_T argc, const char *argv[])
 
   // Initialize model
   rtObj.initialize();
+
+  // Initialize parameters
 
   // Simulating the model step behavior (in non real-time) to
   //   simulate model behavior at stop time.

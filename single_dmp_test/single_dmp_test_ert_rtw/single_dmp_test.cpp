@@ -3,9 +3,9 @@
 //
 // Code generated for Simulink model 'single_dmp_test'.
 //
-// Model version                  : 1.4
+// Model version                  : 1.5
 // Simulink Coder version         : 9.4 (R2020b) 29-Jul-2020
-// C/C++ source code generated on : Thu Oct 26 15:21:12 2023
+// C/C++ source code generated on : Thu Dec  7 13:55:38 2023
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Intel->x86-64 (Windows64)
@@ -203,11 +203,6 @@ void SignalDmp::step(real_T arg_l_position_current[3], const real_T
                      arg_l_position_initial[3], const real_T
                      arg_l_position_goal[3])
 {
-  // local block i/o variables
-  real_T l_gain2[3];
-  real_T l_gain1[3];
-  real_T l_gain3[3];
-  real_T l_gain4;
   real_T tem[41];
   real_T tmp[3];
   real_T a;
@@ -229,54 +224,24 @@ void SignalDmp::step(real_T arg_l_position_current[3], const real_T
 
   arg_l_position_current[0] = rtX.left_CSTATE[0];
 
-  // Gain: '<Root>/Gain29' incorporates:
-  //   Inport: '<Root>/l_position_goal'
-  //   Integrator: '<Root>/left'
-  //   Sum: '<Root>/Sum6'
-
-  l_gain2[0] = (arg_l_position_goal[0] - rtX.left_CSTATE[0]) * 1050.0;
-
   // Integrator: '<Root>/Integrator3'
   rtDW.l_velocity_current[0] = rtX.Integrator3_CSTATE[0];
-
-  // Gain: '<Root>/Gain28'
-  l_gain1[0] = -194.421 * rtDW.l_velocity_current[0];
 
   // Outport: '<Root>/l_position_current' incorporates:
   //   Integrator: '<Root>/left'
 
   arg_l_position_current[1] = rtX.left_CSTATE[1];
 
-  // Gain: '<Root>/Gain29' incorporates:
-  //   Inport: '<Root>/l_position_goal'
-  //   Integrator: '<Root>/left'
-  //   Sum: '<Root>/Sum6'
-
-  l_gain2[1] = (arg_l_position_goal[1] - rtX.left_CSTATE[1]) * 1050.0;
-
   // Integrator: '<Root>/Integrator3'
   rtDW.l_velocity_current[1] = rtX.Integrator3_CSTATE[1];
-
-  // Gain: '<Root>/Gain28'
-  l_gain1[1] = -194.421 * rtDW.l_velocity_current[1];
 
   // Outport: '<Root>/l_position_current' incorporates:
   //   Integrator: '<Root>/left'
 
   arg_l_position_current[2] = rtX.left_CSTATE[2];
 
-  // Gain: '<Root>/Gain29' incorporates:
-  //   Inport: '<Root>/l_position_goal'
-  //   Integrator: '<Root>/left'
-  //   Sum: '<Root>/Sum6'
-
-  l_gain2[2] = (arg_l_position_goal[2] - rtX.left_CSTATE[2]) * 1050.0;
-
   // Integrator: '<Root>/Integrator3'
   rtDW.l_velocity_current[2] = rtX.Integrator3_CSTATE[2];
-
-  // Gain: '<Root>/Gain28'
-  l_gain1[2] = -194.421 * rtDW.l_velocity_current[2];
 
   // MATLAB Function: '<Root>/MATLAB Function' incorporates:
   //   Integrator: '<Root>/Integrator2'
@@ -297,26 +262,25 @@ void SignalDmp::step(real_T arg_l_position_current[3], const real_T
       tmp[k] += rtConstP.MATLABFunction_weight[3 * i + k] * tem[i];
     }
 
-    // Gain: '<Root>/Gain26' incorporates:
-    //   Integrator: '<Root>/Integrator2'
-
-    l_gain3[k] = tmp[k] * rtX.Integrator2_CSTATE / a * 1050.0;
-
-    // Product: '<Root>/Product' incorporates:
+    // Gain: '<Root>/Gain27' incorporates:
+    //   Gain: '<Root>/Gain26'
+    //   Gain: '<Root>/Gain28'
+    //   Gain: '<Root>/Gain29'
     //   Gain: '<Root>/Gain30'
     //   Inport: '<Root>/l_position_goal'
     //   Inport: '<Root>/l_position_initial'
     //   Integrator: '<Root>/Integrator2'
+    //   Integrator: '<Root>/left'
+    //   Product: '<Root>/Product'
+    //   Sum: '<Root>/Add4'
+    //   Sum: '<Root>/Sum6'
     //   Sum: '<Root>/Sum7'
 
-    l_gain4 = (arg_l_position_goal[k] - arg_l_position_initial[k]) * -1050.0 *
-      rtX.Integrator2_CSTATE;
-
-    // Gain: '<Root>/Gain27' incorporates:
-    //   Sum: '<Root>/Add4'
-
-    rtDW.Gain27[k] = (((l_gain1[k] + l_gain2[k]) + l_gain3[k]) + l_gain4) *
-      0.1111111111111111;
+    rtDW.Gain27[k] = ((((arg_l_position_goal[k] - rtX.left_CSTATE[k]) * 1050.0 +
+                        -194.421 * rtDW.l_velocity_current[k]) + tmp[k] *
+                       rtX.Integrator2_CSTATE / a * 1050.0) +
+                      (arg_l_position_goal[k] - arg_l_position_initial[k]) *
+                      -1050.0 * rtX.Integrator2_CSTATE) * 0.1111111111111111;
   }
 
   // End of MATLAB Function: '<Root>/MATLAB Function'
