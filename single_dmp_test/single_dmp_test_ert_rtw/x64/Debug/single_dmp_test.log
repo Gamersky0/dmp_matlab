@@ -1,7 +1,5 @@
 ﻿  ert_main.cpp
-C:\Users\10788\Desktop\RALMatlab\single_dmp_test\single_dmp_test_ert_rtw\ert_main.cpp(43,54): warning C4042: “arg_l_position_current”: 有坏的存储类
-C:\Users\10788\Desktop\RALMatlab\single_dmp_test\single_dmp_test_ert_rtw\ert_main.cpp(43,90): warning C4042: “arg_l_position_goal”: 有坏的存储类
-  single_dmp_test.cpp
-  single_dmp_test_data.cpp
-  正在生成代码...
+C:\Users\10788\Desktop\RALMatlab\single_dmp_test\single_dmp_test_ert_rtw\ert_main.cpp(48,54): warning C4042: “arg_l_position_current”: 有坏的存储类
+C:\Users\10788\Desktop\RALMatlab\single_dmp_test\single_dmp_test_ert_rtw\ert_main.cpp(48,90): warning C4042: “arg_l_position_goal”: 有坏的存储类
+C:\Users\10788\Desktop\RALMatlab\single_dmp_test\single_dmp_test_ert_rtw\ert_main.cpp(137,38): warning C4101: “ex”: 未引用的局部变量
   single_dmp_test.vcxproj -> C:\Users\10788\Desktop\RALMatlab\single_dmp_test\single_dmp_test_ert_rtw\x64\Debug\single_dmp_test.exe
