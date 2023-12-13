@@ -1,2 +1,0 @@
-  Model_3D.cpp
-
