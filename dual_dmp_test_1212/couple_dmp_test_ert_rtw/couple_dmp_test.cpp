@@ -3,9 +3,9 @@
 //
 // Code generated for Simulink model 'couple_dmp_test'.
 //
-// Model version                  : 1.13
+// Model version                  : 1.14
 // Simulink Coder version         : 9.4 (R2020b) 29-Jul-2020
-// C/C++ source code generated on : Wed Dec 13 20:37:18 2023
+// C/C++ source code generated on : Thu Dec 14 13:51:02 2023
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Intel->x86-64 (Windows64)
@@ -15,6 +15,7 @@
 // Validation result: Not run
 //
 #include "couple_dmp_test.h"
+#include <iostream>
 
 // Private macros used by the generated code to access rtModel
 #ifndef rtmIsMajorTimeStep
@@ -31,20 +32,11 @@
 
 // Exported block parameters
 real_T g1[3] = { -1.0, 0.0, 1.0 } ;    // Variable: g1
-                                          //  Referenced by: '<S2>/Constant2'
+                                          //  Referenced by: '<Root>/Constant'
 
 
 real_T g2[3] = { -1.0, 0.6, 1.0 } ;    // Variable: g2
-                                          //  Referenced by: '<S3>/Constant1'
-
-
-// Exported data definition
-
-// Const memory section
-// Definition for custom storage class: Const
-const real_T left_0[3] = { 0.0, 0.0, 0.0 } ;// Referenced by:
-                                               //  '<S2>/Constant4'
-                                               //  '<S2>/left'
+                                          //  Referenced by: '<Root>/Constant1'
 
 
 // private model entry point functions
@@ -248,17 +240,17 @@ void SignalDmp::MATLABFunction14(real_T rtu_u, real_T rty_out[3])
 void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
                      arg_X4[3])
 {
-  static const real_T axis_0[6] = { 0.1, 0.15, 0.2, 0.15, 0.1, 0.2 };
+  static const real_T axis[6] = { 0.1, 0.15, 0.2, 0.15, 0.1, 0.2 };
 
   static const real_T center[6] = { 0.2, -0.4, 0.8, 1.2, 0.4, 0.8 };
 
-  real_T phi[3];
+  real_T rtb_OUT[3];
+  real_T Add_tmp;
+  real_T Add_tmp_0;
   real_T absxk;
-  real_T absxk_tmp;
-  real_T axis;
-  real_T rtb_OUT_idx_0;
-  real_T rtb_OUT_idx_1;
-  real_T rtb_OUT_idx_2;
+  real_T rtb_OUT_m;
+  real_T rtb_y_i_idx_1;
+  real_T rtb_y_i_idx_2;
   real_T scale;
   real_T t;
   int32_T k;
@@ -274,13 +266,13 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   }
 
   if (rtmIsMajorTimeStep((&rtM))) {
-    // Gain: '<S3>/Gain32' incorporates:
-    //   Constant: '<S3>/Constant1'
-    //   Sum: '<S3>/Sum3'
+    // Gain: '<S2>/Gain30' incorporates:
+    //   Constant: '<Root>/Constant'
+    //   Sum: '<S2>/Sum7'
 
-    rtDW.Gain32[0] = -1050.0 * g2[0];
-    rtDW.Gain32[1] = (g2[1] - 0.6) * -1050.0;
-    rtDW.Gain32[2] = -1050.0 * g2[2];
+    rtDW.Gain30[0] = -1050.0 * g1[0];
+    rtDW.Gain30[1] = -1050.0 * g1[1];
+    rtDW.Gain30[2] = -1050.0 * g1[2];
   }
 
   // MATLAB Function: '<S1>/MATLAB Function4'
@@ -293,10 +285,11 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   // Integrator: '<S5>/x2'
   rtDW.m_X2[0] = rtX.x2_CSTATE[0];
 
-  // MATLAB Function: '<S1>/MATLAB Function4' incorporates:
-  //   Sum: '<S1>/Sum'
+  // Sum: '<S1>/Sum'
+  rtb_OUT_m = rtDW.m_X1[0] - rtDW.m_X2[0];
 
-  absxk = std::abs(rtDW.m_X1[0] - rtDW.m_X2[0]);
+  // MATLAB Function: '<S1>/MATLAB Function4'
+  absxk = std::abs(rtb_OUT_m);
   if (absxk > 3.3121686421112381E-170) {
     t = 3.3121686421112381E-170 / absxk;
     rtDW.m_Xp = rtDW.m_Xp * t * t + 1.0;
@@ -306,16 +299,20 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
     rtDW.m_Xp += t * t;
   }
 
+  // Sum: '<S1>/Sum'
+  rtb_OUT[0] = rtb_OUT_m;
+
   // Integrator: '<S5>/x1'
   rtDW.m_X1[1] = rtX.x1_CSTATE[1];
 
   // Integrator: '<S5>/x2'
   rtDW.m_X2[1] = rtX.x2_CSTATE[1];
 
-  // MATLAB Function: '<S1>/MATLAB Function4' incorporates:
-  //   Sum: '<S1>/Sum'
+  // Sum: '<S1>/Sum'
+  rtb_OUT_m = rtDW.m_X1[1] - rtDW.m_X2[1];
 
-  absxk = std::abs(rtDW.m_X1[1] - rtDW.m_X2[1]);
+  // MATLAB Function: '<S1>/MATLAB Function4'
+  absxk = std::abs(rtb_OUT_m);
   if (absxk > scale) {
     t = scale / absxk;
     rtDW.m_Xp = rtDW.m_Xp * t * t + 1.0;
@@ -324,6 +321,9 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
     t = absxk / scale;
     rtDW.m_Xp += t * t;
   }
+
+  // Sum: '<S1>/Sum'
+  rtb_OUT[1] = rtb_OUT_m;
 
   // Integrator: '<S5>/x1'
   rtDW.m_X1[2] = rtX.x1_CSTATE[2];
@@ -331,10 +331,11 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   // Integrator: '<S5>/x2'
   rtDW.m_X2[2] = rtX.x2_CSTATE[2];
 
-  // MATLAB Function: '<S1>/MATLAB Function4' incorporates:
-  //   Sum: '<S1>/Sum'
+  // Sum: '<S1>/Sum'
+  rtb_OUT_m = rtDW.m_X1[2] - rtDW.m_X2[2];
 
-  absxk = std::abs(rtDW.m_X1[2] - rtDW.m_X2[2]);
+  // MATLAB Function: '<S1>/MATLAB Function4'
+  absxk = std::abs(rtb_OUT_m);
   if (absxk > scale) {
     t = scale / absxk;
     rtDW.m_Xp = rtDW.m_Xp * t * t + 1.0;
@@ -344,6 +345,10 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
     rtDW.m_Xp += t * t;
   }
 
+  // Sum: '<S1>/Sum'
+  rtb_OUT[2] = rtb_OUT_m;
+
+  // MATLAB Function: '<S1>/MATLAB Function4'
   rtDW.m_Xp = scale * std::sqrt(rtDW.m_Xp);
 
   // Product: '<Root>/  ' incorporates:
@@ -386,308 +391,52 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
 
   t = (rtDW.m_Ktr - rtDW.m_FtXp) * -10000.0;
 
-  // Gain: '<S1>/Gain20'
-  rtDW.m_G_right = -5.0 * t;
-
-  // Integrator: '<S3>/right'
-  rtDW.m_X4[0] = rtX.right_CSTATE[0];
-
-  // MATLAB Function: '<S3>/3D'
-  rtb_OUT_idx_0 = 0.0;
-
-  // Integrator: '<S3>/right'
-  rtDW.m_X4[1] = rtX.right_CSTATE[1];
-
-  // MATLAB Function: '<S3>/3D'
-  rtb_OUT_idx_1 = 0.0;
-
-  // Integrator: '<S3>/right'
-  rtDW.m_X4[2] = rtX.right_CSTATE[2];
-
-  // MATLAB Function: '<S3>/3D'
-  rtb_OUT_idx_2 = 0.0;
-  for (k = 0; k < 2; k++) {
-    axis = axis_0[k];
-    absxk_tmp = rtDW.m_X4[0] - center[k];
-    absxk = absxk_tmp / axis;
-    scale = absxk * absxk;
-    phi[0] = absxk_tmp / (axis * axis);
-    axis = axis_0[k + 2];
-    absxk_tmp = rtDW.m_X4[1] - center[k + 2];
-    absxk = absxk_tmp / axis;
-    scale += absxk * absxk;
-    phi[1] = absxk_tmp / (axis * axis);
-    axis = axis_0[k + 4];
-    absxk_tmp = rtDW.m_X4[2] - center[k + 4];
-    absxk = absxk_tmp / axis;
-    scale += absxk * absxk;
-    phi[2] = absxk_tmp / (axis * axis);
-    scale--;
-    absxk = std::exp(-scale);
-    scale = 1.0 / scale / scale + 1.0 / scale;
-    axis = phi[0] * absxk * scale * 2.0;
-    phi[0] = axis;
-    rtb_OUT_idx_0 += axis;
-    axis = phi[1] * absxk * scale * 2.0;
-    phi[1] = axis;
-    rtb_OUT_idx_1 += axis;
-    axis = phi[2] * absxk * scale * 2.0;
-    phi[2] = axis;
-    rtb_OUT_idx_2 += axis;
-  }
-
-  // MATLAB Function: '<S3>/MATLAB Function2' incorporates:
-  //   Integrator: '<S3>/Integrator4'
-
-  MATLABFunction14(rtX.Integrator4_CSTATE, phi);
-
-  // Integrator: '<S3>/Integrator5'
-  rtDW.m_X4dot[0] = rtX.Integrator5_CSTATE[0];
-
-  // Gain: '<S3>/Gain18' incorporates:
-  //   Constant: '<S3>/Constant1'
-  //   Gain: '<S3>/Gain17'
-  //   Gain: '<S3>/Gain19'
-  //   Gain: '<S3>/Gain31'
-  //   Integrator: '<S3>/Integrator4'
-  //   Product: '<S3>/Product1'
-  //   Sum: '<S3>/Add2'
-  //   Sum: '<S3>/Sum2'
-
-  rtDW.Gain18[0] = (((((1050.0 * phi[0] + -194.421 * rtDW.m_X4dot[0]) + (g2[0] -
-    rtDW.m_X4[0]) * 1050.0) + rtDW.Gain32[0] * rtX.Integrator4_CSTATE) +
-                     rtDW.m_G_right) + rtb_OUT_idx_0) * 0.1111111111111111;
-
-  // Integrator: '<S5>/Integrator1'
-  rtDW.m_X1dot[0] = rtX.Integrator1_CSTATE[0];
-
-  // Integrator: '<S5>/Integrator'
-  rtDW.m_X2dot[0] = rtX.Integrator_CSTATE[0];
-
-  // Gain: '<S5>/Gain12' incorporates:
-  //   Gain: '<S5>/Gain'
-
-  scale = rtP.k2 * rtDW.m_X2[0];
-
-  // Gain: '<S5>/Gain11' incorporates:
-  //   Gain: '<S5>/Gain1'
-
-  axis = rtP.b2 * rtDW.m_X2dot[0];
-
-  // Gain: '<S5>/Gain15' incorporates:
-  //   Gain: '<S5>/Gain4'
-
-  absxk = rtP.k2 * rtDW.m_X1[0];
-
-  // Gain: '<S5>/Gain9' incorporates:
-  //   Gain: '<S5>/Gain6'
-
-  rtb_OUT_idx_0 = rtP.b2 * rtDW.m_X1dot[0];
-
-  // Sum: '<S5>/Add1' incorporates:
-  //   Gain: '<S5>/Gain10'
-  //   Gain: '<S5>/Gain13'
-  //   Gain: '<S5>/Gain14'
-  //   Gain: '<S5>/Gain8'
-
-  rtDW.Add1[0] = ((((((rtP.k3 * rtDW.m_X4[0] + absxk) + rtb_OUT_idx_0) + rtP.b3 *
-                     rtDW.m_X4dot[0]) - axis) - scale) - rtP.k3 * rtDW.m_X2[0])
-    - rtP.b3 * rtDW.m_X2dot[0];
-
-  // Integrator: '<S2>/left'
-  rtDW.m_X3[0] = rtX.left_CSTATE[0];
-
-  // Integrator: '<S2>/Integrator3'
-  rtDW.m_X3dot[0] = rtX.Integrator3_CSTATE[0];
-
-  // Sum: '<S5>/Add' incorporates:
-  //   Gain: '<S5>/Gain2'
-  //   Gain: '<S5>/Gain3'
-  //   Gain: '<S5>/Gain5'
-  //   Gain: '<S5>/Gain7'
-
-  rtDW.Add[0] = ((((((rtP.k1 * rtDW.m_X3[0] + scale) + axis) + rtP.b1 *
-                    rtDW.m_X3dot[0]) - rtP.k1 * rtDW.m_X1[0]) - absxk) - rtP.b1 *
-                 rtDW.m_X1dot[0]) - rtb_OUT_idx_0;
-
-  // Gain: '<S5>/Gain11'
-  phi[0] = axis;
-
-  // Integrator: '<S3>/Integrator5'
-  rtDW.m_X4dot[1] = rtX.Integrator5_CSTATE[1];
-
-  // Gain: '<S3>/Gain18' incorporates:
-  //   Constant: '<S3>/Constant1'
-  //   Gain: '<S3>/Gain17'
-  //   Gain: '<S3>/Gain19'
-  //   Gain: '<S3>/Gain31'
-  //   Integrator: '<S3>/Integrator4'
-  //   Product: '<S3>/Product1'
-  //   Sum: '<S3>/Add2'
-  //   Sum: '<S3>/Sum2'
-
-  rtDW.Gain18[1] = (((((1050.0 * phi[1] + -194.421 * rtDW.m_X4dot[1]) + (g2[1] -
-    rtDW.m_X4[1]) * 1050.0) + rtDW.Gain32[1] * rtX.Integrator4_CSTATE) +
-                     rtDW.m_G_right) + rtb_OUT_idx_1) * 0.1111111111111111;
-
-  // Integrator: '<S5>/Integrator1'
-  rtDW.m_X1dot[1] = rtX.Integrator1_CSTATE[1];
-
-  // Integrator: '<S5>/Integrator'
-  rtDW.m_X2dot[1] = rtX.Integrator_CSTATE[1];
-
-  // Gain: '<S5>/Gain12' incorporates:
-  //   Gain: '<S5>/Gain'
-
-  scale = rtP.k2 * rtDW.m_X2[1];
-
-  // Gain: '<S5>/Gain11' incorporates:
-  //   Gain: '<S5>/Gain1'
-
-  axis = rtP.b2 * rtDW.m_X2dot[1];
-
-  // Gain: '<S5>/Gain15' incorporates:
-  //   Gain: '<S5>/Gain4'
-
-  absxk = rtP.k2 * rtDW.m_X1[1];
-
-  // Gain: '<S5>/Gain9' incorporates:
-  //   Gain: '<S5>/Gain6'
-
-  rtb_OUT_idx_0 = rtP.b2 * rtDW.m_X1dot[1];
-
-  // Sum: '<S5>/Add1' incorporates:
-  //   Gain: '<S5>/Gain10'
-  //   Gain: '<S5>/Gain13'
-  //   Gain: '<S5>/Gain14'
-  //   Gain: '<S5>/Gain8'
-
-  rtDW.Add1[1] = ((((((rtP.k3 * rtDW.m_X4[1] + absxk) + rtb_OUT_idx_0) + rtP.b3 *
-                     rtDW.m_X4dot[1]) - axis) - scale) - rtP.k3 * rtDW.m_X2[1])
-    - rtP.b3 * rtDW.m_X2dot[1];
-
-  // Integrator: '<S2>/left'
-  rtDW.m_X3[1] = rtX.left_CSTATE[1];
-
-  // Integrator: '<S2>/Integrator3'
-  rtDW.m_X3dot[1] = rtX.Integrator3_CSTATE[1];
-
-  // Sum: '<S5>/Add' incorporates:
-  //   Gain: '<S5>/Gain2'
-  //   Gain: '<S5>/Gain3'
-  //   Gain: '<S5>/Gain5'
-  //   Gain: '<S5>/Gain7'
-
-  rtDW.Add[1] = ((((((rtP.k1 * rtDW.m_X3[1] + scale) + axis) + rtP.b1 *
-                    rtDW.m_X3dot[1]) - rtP.k1 * rtDW.m_X1[1]) - absxk) - rtP.b1 *
-                 rtDW.m_X1dot[1]) - rtb_OUT_idx_0;
-
-  // Gain: '<S5>/Gain11'
-  phi[1] = axis;
-
-  // Integrator: '<S3>/Integrator5'
-  rtDW.m_X4dot[2] = rtX.Integrator5_CSTATE[2];
-
-  // Gain: '<S3>/Gain18' incorporates:
-  //   Constant: '<S3>/Constant1'
-  //   Gain: '<S3>/Gain17'
-  //   Gain: '<S3>/Gain19'
-  //   Gain: '<S3>/Gain31'
-  //   Integrator: '<S3>/Integrator4'
-  //   Product: '<S3>/Product1'
-  //   Sum: '<S3>/Add2'
-  //   Sum: '<S3>/Sum2'
-
-  rtDW.Gain18[2] = (((((1050.0 * phi[2] + -194.421 * rtDW.m_X4dot[2]) + (g2[2] -
-    rtDW.m_X4[2]) * 1050.0) + rtDW.Gain32[2] * rtX.Integrator4_CSTATE) +
-                     rtDW.m_G_right) + rtb_OUT_idx_2) * 0.1111111111111111;
-
-  // Integrator: '<S5>/Integrator1'
-  rtDW.m_X1dot[2] = rtX.Integrator1_CSTATE[2];
-
-  // Integrator: '<S5>/Integrator'
-  rtDW.m_X2dot[2] = rtX.Integrator_CSTATE[2];
-
-  // Gain: '<S5>/Gain12' incorporates:
-  //   Gain: '<S5>/Gain'
-
-  scale = rtP.k2 * rtDW.m_X2[2];
-
-  // Gain: '<S5>/Gain11' incorporates:
-  //   Gain: '<S5>/Gain1'
-
-  axis = rtP.b2 * rtDW.m_X2dot[2];
-
-  // Gain: '<S5>/Gain15' incorporates:
-  //   Gain: '<S5>/Gain4'
-
-  absxk = rtP.k2 * rtDW.m_X1[2];
-
-  // Gain: '<S5>/Gain9' incorporates:
-  //   Gain: '<S5>/Gain6'
-
-  rtb_OUT_idx_0 = rtP.b2 * rtDW.m_X1dot[2];
-
-  // Sum: '<S5>/Add1' incorporates:
-  //   Gain: '<S5>/Gain10'
-  //   Gain: '<S5>/Gain13'
-  //   Gain: '<S5>/Gain14'
-  //   Gain: '<S5>/Gain8'
-
-  rtDW.Add1[2] = ((((((rtP.k3 * rtDW.m_X4[2] + absxk) + rtb_OUT_idx_0) + rtP.b3 *
-                     rtDW.m_X4dot[2]) - axis) - scale) - rtP.k3 * rtDW.m_X2[2])
-    - rtP.b3 * rtDW.m_X2dot[2];
-
-  // Integrator: '<S2>/left'
-  rtDW.m_X3[2] = rtX.left_CSTATE[2];
-
-  // Integrator: '<S2>/Integrator3'
-  rtDW.m_X3dot[2] = rtX.Integrator3_CSTATE[2];
-
-  // Sum: '<S5>/Add' incorporates:
-  //   Gain: '<S5>/Gain2'
-  //   Gain: '<S5>/Gain3'
-  //   Gain: '<S5>/Gain5'
-  //   Gain: '<S5>/Gain7'
-
-  rtDW.Add[2] = ((((((rtP.k1 * rtDW.m_X3[2] + scale) + axis) + rtP.b1 *
-                    rtDW.m_X3dot[2]) - rtP.k1 * rtDW.m_X1[2]) - absxk) - rtP.b1 *
-                 rtDW.m_X1dot[2]) - rtb_OUT_idx_0;
-
-  // Gain: '<S5>/Gain11'
-  phi[2] = axis;
-
   // Gain: '<S1>/Gain22'
   rtDW.m_G_left = 5.0 * t;
 
   // MATLAB Function: '<S2>/MATLAB Function14' incorporates:
   //   Integrator: '<S2>/Integrator2'
 
-  MATLABFunction14(rtX.Integrator2_CSTATE, phi);
-  if (rtmIsMajorTimeStep((&rtM))) {
-    // Gain: '<S2>/Gain30' incorporates:
-    //   Constant: '<S2>/Constant2'
-    //   Constant: '<S2>/Constant4'
-    //   Sum: '<S2>/Sum7'
+  MATLABFunction14(rtX.Integrator2_CSTATE, rtb_OUT);
 
-    rtDW.Gain30[0] = (g1[0] - left_0[0]) * -1050.0;
-    rtDW.Gain30[1] = (g1[1] - left_0[1]) * -1050.0;
-    rtDW.Gain30[2] = (g1[2] - left_0[2]) * -1050.0;
-  }
+  // Integrator: '<S2>/Integrator3'
+  rtDW.m_X3dot[0] = rtX.Integrator3_CSTATE[0];
+
+  // Integrator: '<S2>/left'
+  rtDW.m_X3[0] = rtX.left_CSTATE[0];
 
   // MATLAB Function: '<S2>/Right_3D'
   absxk = (rtDW.m_X3[0] - 0.15) / 0.1;
   scale = absxk * absxk;
+
+  // Integrator: '<S2>/Integrator3'
+  rtDW.m_X3dot[1] = rtX.Integrator3_CSTATE[1];
+
+  // Integrator: '<S2>/left'
+  rtDW.m_X3[1] = rtX.left_CSTATE[1];
+
+  // MATLAB Function: '<S2>/Right_3D'
   absxk = (rtDW.m_X3[1] - 0.2) / 0.1;
   scale += absxk * absxk;
+
+  // Integrator: '<S2>/Integrator3'
+  rtDW.m_X3dot[2] = rtX.Integrator3_CSTATE[2];
+
+  // Integrator: '<S2>/left'
+  rtDW.m_X3[2] = rtX.left_CSTATE[2];
+
+  // MATLAB Function: '<S2>/Right_3D'
   absxk = (rtDW.m_X3[2] - 0.4) / 0.1;
   scale += absxk * absxk;
   scale--;
   absxk = std::exp(-scale);
   scale = 1.0 / scale / scale + 1.0 / scale;
 
+  // Gain: '<S1>/Gain20'
+  rtDW.m_G_right = -5.0 * t;
+
   // Gain: '<S2>/Gain27' incorporates:
-  //   Constant: '<S2>/Constant2'
+  //   Constant: '<Root>/Constant'
   //   Gain: '<S2>/Gain26'
   //   Gain: '<S2>/Gain28'
   //   Gain: '<S2>/Gain29'
@@ -697,8 +446,8 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   //   Sum: '<S2>/Add4'
   //   Sum: '<S2>/Sum6'
 
-  rtDW.Gain27[0] = (((((1050.0 * phi[0] + -194.421 * rtDW.m_X3dot[0]) + (g1[0] -
-    rtDW.m_X3[0]) * 1050.0) + rtDW.Gain30[0] * rtX.Integrator2_CSTATE) +
+  rtDW.Gain27[0] = (((((1050.0 * rtb_OUT[0] + -194.421 * rtDW.m_X3dot[0]) + (g1
+    [0] - rtDW.m_X3[0]) * 1050.0) + rtDW.Gain30[0] * rtX.Integrator2_CSTATE) +
                      rtDW.m_G_left) + (rtDW.m_X3[0] - 0.15) /
                     0.010000000000000002 * absxk * scale * 2.0) *
     0.1111111111111111;
@@ -706,11 +455,63 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   // Outport: '<Root>/X3'
   arg_X3[0] = rtDW.m_X3[0];
 
-  // Outport: '<Root>/X4'
-  arg_X4[0] = rtDW.m_X4[0];
+  // Integrator: '<S5>/Integrator'
+  rtDW.m_X2dot[0] = rtX.Integrator_CSTATE[0];
+
+  // Integrator: '<S5>/Integrator1'
+  rtDW.m_X1dot[0] = rtX.Integrator1_CSTATE[0];
+
+  // Gain: '<S5>/Gain4' incorporates:
+  //   Gain: '<S5>/Gain15'
+
+  rtb_OUT_m = rtP.k2 * rtDW.m_X1[0];
+
+  // Gain: '<S5>/Gain6' incorporates:
+  //   Gain: '<S5>/Gain9'
+
+  rtb_y_i_idx_2 = rtP.b2 * rtDW.m_X1dot[0];
+
+  // Gain: '<S5>/Gain1' incorporates:
+  //   Gain: '<S5>/Gain11'
+
+  Add_tmp = rtP.b2 * rtDW.m_X2dot[0];
+
+  // Gain: '<S5>/Gain' incorporates:
+  //   Gain: '<S5>/Gain12'
+
+  Add_tmp_0 = rtP.k2 * rtDW.m_X2[0];
+
+  // Sum: '<S5>/Add' incorporates:
+  //   Gain: '<S5>/Gain2'
+  //   Gain: '<S5>/Gain3'
+  //   Gain: '<S5>/Gain5'
+  //   Gain: '<S5>/Gain7'
+
+  rtDW.Add[0] = ((((((rtP.k1 * rtDW.m_X3[0] + Add_tmp_0) + Add_tmp) + rtP.b1 *
+                    rtDW.m_X3dot[0]) - rtP.k1 * rtDW.m_X1[0]) - rtb_OUT_m) -
+                 rtP.b1 * rtDW.m_X1dot[0]) - rtb_y_i_idx_2;
+
+  // Integrator: '<S3>/right'
+  rtDW.m_X4[0] = rtX.right_CSTATE[0];
+
+  // Integrator: '<S3>/Integrator5'
+  rtDW.m_X4dot[0] = rtX.Integrator5_CSTATE[0];
+
+  // Sum: '<S5>/Add1' incorporates:
+  //   Gain: '<S5>/Gain10'
+  //   Gain: '<S5>/Gain13'
+  //   Gain: '<S5>/Gain14'
+  //   Gain: '<S5>/Gain8'
+
+  rtDW.Add1[0] = ((((((rtP.k3 * rtDW.m_X4[0] + rtb_OUT_m) + rtb_y_i_idx_2) +
+                     rtP.b3 * rtDW.m_X4dot[0]) - Add_tmp) - Add_tmp_0) - rtP.k3 *
+                  rtDW.m_X2[0]) - rtP.b3 * rtDW.m_X2dot[0];
+
+  // MATLAB Function: '<S2>/Right_3D'
+  t = 0.0;
 
   // Gain: '<S2>/Gain27' incorporates:
-  //   Constant: '<S2>/Constant2'
+  //   Constant: '<Root>/Constant'
   //   Gain: '<S2>/Gain26'
   //   Gain: '<S2>/Gain28'
   //   Gain: '<S2>/Gain29'
@@ -720,8 +521,8 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   //   Sum: '<S2>/Add4'
   //   Sum: '<S2>/Sum6'
 
-  rtDW.Gain27[1] = (((((1050.0 * phi[1] + -194.421 * rtDW.m_X3dot[1]) + (g1[1] -
-    rtDW.m_X3[1]) * 1050.0) + rtDW.Gain30[1] * rtX.Integrator2_CSTATE) +
+  rtDW.Gain27[1] = (((((1050.0 * rtb_OUT[1] + -194.421 * rtDW.m_X3dot[1]) + (g1
+    [1] - rtDW.m_X3[1]) * 1050.0) + rtDW.Gain30[1] * rtX.Integrator2_CSTATE) +
                      rtDW.m_G_left) + (rtDW.m_X3[1] - 0.2) /
                     0.010000000000000002 * absxk * scale * 2.0) *
     0.1111111111111111;
@@ -729,11 +530,63 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   // Outport: '<Root>/X3'
   arg_X3[1] = rtDW.m_X3[1];
 
-  // Outport: '<Root>/X4'
-  arg_X4[1] = rtDW.m_X4[1];
+  // Integrator: '<S5>/Integrator'
+  rtDW.m_X2dot[1] = rtX.Integrator_CSTATE[1];
+
+  // Integrator: '<S5>/Integrator1'
+  rtDW.m_X1dot[1] = rtX.Integrator1_CSTATE[1];
+
+  // Gain: '<S5>/Gain4' incorporates:
+  //   Gain: '<S5>/Gain15'
+
+  rtb_OUT_m = rtP.k2 * rtDW.m_X1[1];
+
+  // Gain: '<S5>/Gain6' incorporates:
+  //   Gain: '<S5>/Gain9'
+
+  rtb_y_i_idx_2 = rtP.b2 * rtDW.m_X1dot[1];
+
+  // Gain: '<S5>/Gain1' incorporates:
+  //   Gain: '<S5>/Gain11'
+
+  Add_tmp = rtP.b2 * rtDW.m_X2dot[1];
+
+  // Gain: '<S5>/Gain' incorporates:
+  //   Gain: '<S5>/Gain12'
+
+  Add_tmp_0 = rtP.k2 * rtDW.m_X2[1];
+
+  // Sum: '<S5>/Add' incorporates:
+  //   Gain: '<S5>/Gain2'
+  //   Gain: '<S5>/Gain3'
+  //   Gain: '<S5>/Gain5'
+  //   Gain: '<S5>/Gain7'
+
+  rtDW.Add[1] = ((((((rtP.k1 * rtDW.m_X3[1] + Add_tmp_0) + Add_tmp) + rtP.b1 *
+                    rtDW.m_X3dot[1]) - rtP.k1 * rtDW.m_X1[1]) - rtb_OUT_m) -
+                 rtP.b1 * rtDW.m_X1dot[1]) - rtb_y_i_idx_2;
+
+  // Integrator: '<S3>/right'
+  rtDW.m_X4[1] = rtX.right_CSTATE[1];
+
+  // Integrator: '<S3>/Integrator5'
+  rtDW.m_X4dot[1] = rtX.Integrator5_CSTATE[1];
+
+  // Sum: '<S5>/Add1' incorporates:
+  //   Gain: '<S5>/Gain10'
+  //   Gain: '<S5>/Gain13'
+  //   Gain: '<S5>/Gain14'
+  //   Gain: '<S5>/Gain8'
+
+  rtDW.Add1[1] = ((((((rtP.k3 * rtDW.m_X4[1] + rtb_OUT_m) + rtb_y_i_idx_2) +
+                     rtP.b3 * rtDW.m_X4dot[1]) - Add_tmp) - Add_tmp_0) - rtP.k3 *
+                  rtDW.m_X2[1]) - rtP.b3 * rtDW.m_X2dot[1];
+
+  // MATLAB Function: '<S2>/Right_3D'
+  rtb_y_i_idx_1 = 0.0;
 
   // Gain: '<S2>/Gain27' incorporates:
-  //   Constant: '<S2>/Constant2'
+  //   Constant: '<Root>/Constant'
   //   Gain: '<S2>/Gain26'
   //   Gain: '<S2>/Gain28'
   //   Gain: '<S2>/Gain29'
@@ -743,8 +596,8 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   //   Sum: '<S2>/Add4'
   //   Sum: '<S2>/Sum6'
 
-  rtDW.Gain27[2] = (((((1050.0 * phi[2] + -194.421 * rtDW.m_X3dot[2]) + (g1[2] -
-    rtDW.m_X3[2]) * 1050.0) + rtDW.Gain30[2] * rtX.Integrator2_CSTATE) +
+  rtDW.Gain27[2] = (((((1050.0 * rtb_OUT[2] + -194.421 * rtDW.m_X3dot[2]) + (g1
+    [2] - rtDW.m_X3[2]) * 1050.0) + rtDW.Gain30[2] * rtX.Integrator2_CSTATE) +
                      rtDW.m_G_left) + (rtDW.m_X3[2] - 0.4) /
                     0.010000000000000002 * absxk * scale * 2.0) *
     0.1111111111111111;
@@ -752,13 +605,163 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   // Outport: '<Root>/X3'
   arg_X3[2] = rtDW.m_X3[2];
 
+  // Integrator: '<S5>/Integrator'
+  rtDW.m_X2dot[2] = rtX.Integrator_CSTATE[2];
+
+  // Integrator: '<S5>/Integrator1'
+  rtDW.m_X1dot[2] = rtX.Integrator1_CSTATE[2];
+
+  // Gain: '<S5>/Gain4' incorporates:
+  //   Gain: '<S5>/Gain15'
+
+  rtb_OUT_m = rtP.k2 * rtDW.m_X1[2];
+
+  // Gain: '<S5>/Gain6' incorporates:
+  //   Gain: '<S5>/Gain9'
+
+  rtb_y_i_idx_2 = rtP.b2 * rtDW.m_X1dot[2];
+
+  // Gain: '<S5>/Gain1' incorporates:
+  //   Gain: '<S5>/Gain11'
+
+  Add_tmp = rtP.b2 * rtDW.m_X2dot[2];
+
+  // Gain: '<S5>/Gain' incorporates:
+  //   Gain: '<S5>/Gain12'
+
+  Add_tmp_0 = rtP.k2 * rtDW.m_X2[2];
+
+  // Sum: '<S5>/Add' incorporates:
+  //   Gain: '<S5>/Gain2'
+  //   Gain: '<S5>/Gain3'
+  //   Gain: '<S5>/Gain5'
+  //   Gain: '<S5>/Gain7'
+
+  rtDW.Add[2] = ((((((rtP.k1 * rtDW.m_X3[2] + Add_tmp_0) + Add_tmp) + rtP.b1 *
+                    rtDW.m_X3dot[2]) - rtP.k1 * rtDW.m_X1[2]) - rtb_OUT_m) -
+                 rtP.b1 * rtDW.m_X1dot[2]) - rtb_y_i_idx_2;
+
+  // Integrator: '<S3>/right'
+  rtDW.m_X4[2] = rtX.right_CSTATE[2];
+
+  // Integrator: '<S3>/Integrator5'
+  rtDW.m_X4dot[2] = rtX.Integrator5_CSTATE[2];
+
+  // Sum: '<S5>/Add1' incorporates:
+  //   Gain: '<S5>/Gain10'
+  //   Gain: '<S5>/Gain13'
+  //   Gain: '<S5>/Gain14'
+  //   Gain: '<S5>/Gain8'
+
+  rtDW.Add1[2] = ((((((rtP.k3 * rtDW.m_X4[2] + rtb_OUT_m) + rtb_y_i_idx_2) +
+                     rtP.b3 * rtDW.m_X4dot[2]) - Add_tmp) - Add_tmp_0) - rtP.k3 *
+                  rtDW.m_X2[2]) - rtP.b3 * rtDW.m_X2dot[2];
+
+  // MATLAB Function: '<S2>/Right_3D'
+  rtb_y_i_idx_2 = 0.0;
+
+  // MATLAB Function: '<S3>/3D'
+  for (k = 0; k < 2; k++) {
+    rtb_OUT_m = axis[k];
+    Add_tmp = rtDW.m_X4[0] - center[k];
+    absxk = Add_tmp / rtb_OUT_m;
+    scale = absxk * absxk;
+    rtb_OUT[0] = Add_tmp / (rtb_OUT_m * rtb_OUT_m);
+    rtb_OUT_m = axis[k + 2];
+    Add_tmp = rtDW.m_X4[1] - center[k + 2];
+    absxk = Add_tmp / rtb_OUT_m;
+    scale += absxk * absxk;
+    rtb_OUT[1] = Add_tmp / (rtb_OUT_m * rtb_OUT_m);
+    rtb_OUT_m = axis[k + 4];
+    Add_tmp = rtDW.m_X4[2] - center[k + 4];
+    absxk = Add_tmp / rtb_OUT_m;
+    scale += absxk * absxk;
+    rtb_OUT[2] = Add_tmp / (rtb_OUT_m * rtb_OUT_m);
+    scale--;
+    absxk = std::exp(-scale);
+    scale = 1.0 / scale / scale + 1.0 / scale;
+    rtb_OUT_m = rtb_OUT[0] * absxk * scale * 2.0;
+    rtb_OUT[0] = rtb_OUT_m;
+    t += rtb_OUT_m;
+    rtb_OUT_m = rtb_OUT[1] * absxk * scale * 2.0;
+    rtb_OUT[1] = rtb_OUT_m;
+    rtb_y_i_idx_1 += rtb_OUT_m;
+    rtb_OUT_m = rtb_OUT[2] * absxk * scale * 2.0;
+    rtb_OUT[2] = rtb_OUT_m;
+    rtb_y_i_idx_2 += rtb_OUT_m;
+  }
+
+  // End of MATLAB Function: '<S3>/3D'
+
+  // MATLAB Function: '<S3>/MATLAB Function2' incorporates:
+  //   Integrator: '<S3>/Integrator4'
+
+  MATLABFunction14(rtX.Integrator4_CSTATE, rtb_OUT);
+  if (rtmIsMajorTimeStep((&rtM))) {
+    // Gain: '<S3>/Gain32' incorporates:
+    //   Constant: '<Root>/Constant1'
+    //   Sum: '<S3>/Sum3'
+
+    rtDW.Gain32[0] = -1050.0 * g2[0];
+    rtDW.Gain32[1] = (g2[1] - 0.6) * -1050.0;
+    rtDW.Gain32[2] = -1050.0 * g2[2];
+  }
+
+  // Gain: '<S3>/Gain18' incorporates:
+  //   Constant: '<Root>/Constant1'
+  //   Gain: '<S3>/Gain17'
+  //   Gain: '<S3>/Gain19'
+  //   Gain: '<S3>/Gain31'
+  //   Integrator: '<S3>/Integrator4'
+  //   Product: '<S3>/Product1'
+  //   Sum: '<S3>/Add2'
+  //   Sum: '<S3>/Sum2'
+
+  rtDW.Gain18[0] = (((((1050.0 * rtb_OUT[0] + -194.421 * rtDW.m_X4dot[0]) + (g2
+    [0] - rtDW.m_X4[0]) * 1050.0) + rtDW.Gain32[0] * rtX.Integrator4_CSTATE) +
+                     rtDW.m_G_right) + t) * 0.1111111111111111;
+
+  // Outport: '<Root>/X4'
+  arg_X4[0] = rtDW.m_X4[0];
+
+  // Gain: '<S3>/Gain18' incorporates:
+  //   Constant: '<Root>/Constant1'
+  //   Gain: '<S3>/Gain17'
+  //   Gain: '<S3>/Gain19'
+  //   Gain: '<S3>/Gain31'
+  //   Integrator: '<S3>/Integrator4'
+  //   Product: '<S3>/Product1'
+  //   Sum: '<S3>/Add2'
+  //   Sum: '<S3>/Sum2'
+
+  rtDW.Gain18[1] = (((((1050.0 * rtb_OUT[1] + -194.421 * rtDW.m_X4dot[1]) + (g2
+    [1] - rtDW.m_X4[1]) * 1050.0) + rtDW.Gain32[1] * rtX.Integrator4_CSTATE) +
+                     rtDW.m_G_right) + rtb_y_i_idx_1) * 0.1111111111111111;
+
+  // Outport: '<Root>/X4'
+  arg_X4[1] = rtDW.m_X4[1];
+
+  // Gain: '<S3>/Gain18' incorporates:
+  //   Constant: '<Root>/Constant1'
+  //   Gain: '<S3>/Gain17'
+  //   Gain: '<S3>/Gain19'
+  //   Gain: '<S3>/Gain31'
+  //   Integrator: '<S3>/Integrator4'
+  //   Product: '<S3>/Product1'
+  //   Sum: '<S3>/Add2'
+  //   Sum: '<S3>/Sum2'
+
+  rtDW.Gain18[2] = (((((1050.0 * rtb_OUT[2] + -194.421 * rtDW.m_X4dot[2]) + (g2
+    [2] - rtDW.m_X4[2]) * 1050.0) + rtDW.Gain32[2] * rtX.Integrator4_CSTATE) +
+                     rtDW.m_G_right) + rtb_y_i_idx_2) * 0.1111111111111111;
+
   // Outport: '<Root>/X4'
   arg_X4[2] = rtDW.m_X4[2];
 
-  // Gain: '<S2>/Gain25' incorporates:
-  //   Integrator: '<S2>/Integrator2'
+  // Gain: '<S3>/Gain16' incorporates:
+  //   Integrator: '<S3>/Integrator4'
 
-  rtDW.Gain25 = -rtX.Integrator2_CSTATE;
+  rtDW.Gain16 = -rtX.Integrator4_CSTATE;
 
   // Outport: '<Root>/m_e'
   *arg_m_e = rtDW.m_e;
@@ -766,10 +769,10 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   // Outport: '<Root>/m_Xp'
   *arg_m_Xp = rtDW.m_Xp;
 
-  // Gain: '<S3>/Gain16' incorporates:
-  //   Integrator: '<S3>/Integrator4'
+  // Gain: '<S2>/Gain25' incorporates:
+  //   Integrator: '<S2>/Integrator2'
 
-  rtDW.Gain16 = -rtX.Integrator4_CSTATE;
+  rtDW.Gain25 = -rtX.Integrator2_CSTATE;
 
   // TransferFcn: '<Root>/Gm '
   rtDW.Gm = 0.0;
@@ -812,8 +815,8 @@ void SignalDmp::couple_dmp_test_derivatives(real_T *arg_m_Xp, real_T *arg_m_e,
   SignalDmp::XDot *_rtXdot;
   _rtXdot = ((XDot *) (&rtM)->derivs);
 
-  // Derivatives for Integrator: '<S3>/Integrator4'
-  _rtXdot->Integrator4_CSTATE = rtDW.Gain16;
+  // Derivatives for Integrator: '<S2>/Integrator2'
+  _rtXdot->Integrator2_CSTATE = rtDW.Gain25;
 
   // Derivatives for Integrator: '<S5>/x1'
   _rtXdot->x1_CSTATE[0] = rtDW.m_X1dot[0];
@@ -851,23 +854,35 @@ void SignalDmp::couple_dmp_test_derivatives(real_T *arg_m_Xp, real_T *arg_m_e,
   _rtXdot->gamma1s_CSTATE += -0.0 * rtX.gamma1s_CSTATE;
   _rtXdot->gamma1s_CSTATE += rtDW.Gm_p;
 
+  // Derivatives for Integrator: '<S2>/Integrator3'
+  _rtXdot->Integrator3_CSTATE[0] = rtDW.Gain27[0];
+
+  // Derivatives for Integrator: '<S2>/left'
+  _rtXdot->left_CSTATE[0] = rtDW.m_X3dot[0];
+
+  // Derivatives for Integrator: '<S5>/Integrator'
+  _rtXdot->Integrator_CSTATE[0] = rtDW.Add1[0];
+
+  // Derivatives for Integrator: '<S5>/Integrator1'
+  _rtXdot->Integrator1_CSTATE[0] = rtDW.Add[0];
+
   // Derivatives for Integrator: '<S3>/right'
   _rtXdot->right_CSTATE[0] = rtDW.m_X4dot[0];
 
   // Derivatives for Integrator: '<S3>/Integrator5'
   _rtXdot->Integrator5_CSTATE[0] = rtDW.Gain18[0];
 
-  // Derivatives for Integrator: '<S5>/Integrator1'
-  _rtXdot->Integrator1_CSTATE[0] = rtDW.Add[0];
-
-  // Derivatives for Integrator: '<S5>/Integrator'
-  _rtXdot->Integrator_CSTATE[0] = rtDW.Add1[0];
+  // Derivatives for Integrator: '<S2>/Integrator3'
+  _rtXdot->Integrator3_CSTATE[1] = rtDW.Gain27[1];
 
   // Derivatives for Integrator: '<S2>/left'
-  _rtXdot->left_CSTATE[0] = rtDW.m_X3dot[0];
+  _rtXdot->left_CSTATE[1] = rtDW.m_X3dot[1];
 
-  // Derivatives for Integrator: '<S2>/Integrator3'
-  _rtXdot->Integrator3_CSTATE[0] = rtDW.Gain27[0];
+  // Derivatives for Integrator: '<S5>/Integrator'
+  _rtXdot->Integrator_CSTATE[1] = rtDW.Add1[1];
+
+  // Derivatives for Integrator: '<S5>/Integrator1'
+  _rtXdot->Integrator1_CSTATE[1] = rtDW.Add[1];
 
   // Derivatives for Integrator: '<S3>/right'
   _rtXdot->right_CSTATE[1] = rtDW.m_X4dot[1];
@@ -875,17 +890,17 @@ void SignalDmp::couple_dmp_test_derivatives(real_T *arg_m_Xp, real_T *arg_m_e,
   // Derivatives for Integrator: '<S3>/Integrator5'
   _rtXdot->Integrator5_CSTATE[1] = rtDW.Gain18[1];
 
-  // Derivatives for Integrator: '<S5>/Integrator1'
-  _rtXdot->Integrator1_CSTATE[1] = rtDW.Add[1];
-
-  // Derivatives for Integrator: '<S5>/Integrator'
-  _rtXdot->Integrator_CSTATE[1] = rtDW.Add1[1];
+  // Derivatives for Integrator: '<S2>/Integrator3'
+  _rtXdot->Integrator3_CSTATE[2] = rtDW.Gain27[2];
 
   // Derivatives for Integrator: '<S2>/left'
-  _rtXdot->left_CSTATE[1] = rtDW.m_X3dot[1];
+  _rtXdot->left_CSTATE[2] = rtDW.m_X3dot[2];
 
-  // Derivatives for Integrator: '<S2>/Integrator3'
-  _rtXdot->Integrator3_CSTATE[1] = rtDW.Gain27[1];
+  // Derivatives for Integrator: '<S5>/Integrator'
+  _rtXdot->Integrator_CSTATE[2] = rtDW.Add1[2];
+
+  // Derivatives for Integrator: '<S5>/Integrator1'
+  _rtXdot->Integrator1_CSTATE[2] = rtDW.Add[2];
 
   // Derivatives for Integrator: '<S3>/right'
   _rtXdot->right_CSTATE[2] = rtDW.m_X4dot[2];
@@ -893,20 +908,8 @@ void SignalDmp::couple_dmp_test_derivatives(real_T *arg_m_Xp, real_T *arg_m_e,
   // Derivatives for Integrator: '<S3>/Integrator5'
   _rtXdot->Integrator5_CSTATE[2] = rtDW.Gain18[2];
 
-  // Derivatives for Integrator: '<S5>/Integrator1'
-  _rtXdot->Integrator1_CSTATE[2] = rtDW.Add[2];
-
-  // Derivatives for Integrator: '<S5>/Integrator'
-  _rtXdot->Integrator_CSTATE[2] = rtDW.Add1[2];
-
-  // Derivatives for Integrator: '<S2>/left'
-  _rtXdot->left_CSTATE[2] = rtDW.m_X3dot[2];
-
-  // Derivatives for Integrator: '<S2>/Integrator3'
-  _rtXdot->Integrator3_CSTATE[2] = rtDW.Gain27[2];
-
-  // Derivatives for Integrator: '<S2>/Integrator2'
-  _rtXdot->Integrator2_CSTATE = rtDW.Gain25;
+  // Derivatives for Integrator: '<S3>/Integrator4'
+  _rtXdot->Integrator4_CSTATE = rtDW.Gain16;
 
   // Derivatives for TransferFcn: '<Root>/Gm '
   _rtXdot->Gm_CSTATE[0] = 0.0;
@@ -925,8 +928,24 @@ void SignalDmp::couple_dmp_test_derivatives(real_T *arg_m_Xp, real_T *arg_m_e,
   _rtXdot->Gm_CSTATE_e[0] += rtDW.Step;
 }
 
+void initialize_parameters_uc(real_T ini_g1[3], real_T ini_g2[3]) {
+    g1[0] = ini_g1[0];
+    g1[1] = ini_g1[1];
+    g1[2] = ini_g1[2];
+    g2[0] = ini_g2[0];
+    g2[1] = ini_g2[1];
+    g2[2] = ini_g2[2];
+}
+
+void print_parameters() {
+    using namespace std;
+    cout << "Print parameters for debug in dmp" << endl;
+    cout << "  g1: " << g1[0] << " " << g1[1] << " " << g1[2] << endl;
+    cout << "  g2: " << g2[0] << " " << g2[1] << " " << g2[2] << endl;
+}
+
 // Model initialize function
-void SignalDmp::initialize()
+void SignalDmp::initialize(real_T ini_g1[3], real_T ini_g2[3])
 {
   // Registration code
   {
@@ -946,6 +965,9 @@ void SignalDmp::initialize()
     rtsiSetErrorStatusPtr(&(&rtM)->solverInfo, (&rtmGetErrorStatus((&rtM))));
     rtsiSetRTModelPtr(&(&rtM)->solverInfo, (&rtM));
   }
+  
+  initialize_parameters_uc(ini_g1, ini_g2);
+  print_parameters();
 
   rtsiSetSimTimeStep(&(&rtM)->solverInfo, MAJOR_TIME_STEP);
   (&rtM)->intgData.deltaY= (&rtM)->OdeDeltaY;
@@ -969,8 +991,8 @@ void SignalDmp::initialize()
   rtmSetTPtr((&rtM), &(&rtM)->Timing.tArray[0]);
   (&rtM)->Timing.stepSize0 = 0.005;
 
-  // InitializeConditions for Integrator: '<S3>/Integrator4'
-  rtX.Integrator4_CSTATE = 1.0;
+  // InitializeConditions for Integrator: '<S2>/Integrator2'
+  rtX.Integrator2_CSTATE = 1.0;
 
   // InitializeConditions for Integrator: '<S5>/x1'
   rtX.x1_CSTATE[0] = 0.0;
@@ -1000,23 +1022,35 @@ void SignalDmp::initialize()
   // InitializeConditions for TransferFcn: '<Root>/-gamma1//s'
   rtX.gamma1s_CSTATE = 0.0;
 
+  // InitializeConditions for Integrator: '<S2>/Integrator3'
+  rtX.Integrator3_CSTATE[0] = 0.0;
+
+  // InitializeConditions for Integrator: '<S2>/left'
+  rtX.left_CSTATE[0] = 0.0;
+
+  // InitializeConditions for Integrator: '<S5>/Integrator'
+  rtX.Integrator_CSTATE[0] = 0.0;
+
+  // InitializeConditions for Integrator: '<S5>/Integrator1'
+  rtX.Integrator1_CSTATE[0] = 0.0;
+
   // InitializeConditions for Integrator: '<S3>/right'
   rtX.right_CSTATE[0] = 0.0;
 
   // InitializeConditions for Integrator: '<S3>/Integrator5'
   rtX.Integrator5_CSTATE[0] = 0.0;
 
-  // InitializeConditions for Integrator: '<S5>/Integrator1'
-  rtX.Integrator1_CSTATE[0] = 0.0;
-
-  // InitializeConditions for Integrator: '<S5>/Integrator'
-  rtX.Integrator_CSTATE[0] = 0.0;
+  // InitializeConditions for Integrator: '<S2>/Integrator3'
+  rtX.Integrator3_CSTATE[1] = 0.0;
 
   // InitializeConditions for Integrator: '<S2>/left'
-  rtX.left_CSTATE[0] = left_0[0];
+  rtX.left_CSTATE[1] = 0.0;
 
-  // InitializeConditions for Integrator: '<S2>/Integrator3'
-  rtX.Integrator3_CSTATE[0] = 0.0;
+  // InitializeConditions for Integrator: '<S5>/Integrator'
+  rtX.Integrator_CSTATE[1] = 0.0;
+
+  // InitializeConditions for Integrator: '<S5>/Integrator1'
+  rtX.Integrator1_CSTATE[1] = 0.0;
 
   // InitializeConditions for Integrator: '<S3>/right'
   rtX.right_CSTATE[1] = 0.6;
@@ -1024,17 +1058,17 @@ void SignalDmp::initialize()
   // InitializeConditions for Integrator: '<S3>/Integrator5'
   rtX.Integrator5_CSTATE[1] = 0.0;
 
-  // InitializeConditions for Integrator: '<S5>/Integrator1'
-  rtX.Integrator1_CSTATE[1] = 0.0;
-
-  // InitializeConditions for Integrator: '<S5>/Integrator'
-  rtX.Integrator_CSTATE[1] = 0.0;
+  // InitializeConditions for Integrator: '<S2>/Integrator3'
+  rtX.Integrator3_CSTATE[2] = 0.0;
 
   // InitializeConditions for Integrator: '<S2>/left'
-  rtX.left_CSTATE[1] = left_0[1];
+  rtX.left_CSTATE[2] = 0.0;
 
-  // InitializeConditions for Integrator: '<S2>/Integrator3'
-  rtX.Integrator3_CSTATE[1] = 0.0;
+  // InitializeConditions for Integrator: '<S5>/Integrator'
+  rtX.Integrator_CSTATE[2] = 0.0;
+
+  // InitializeConditions for Integrator: '<S5>/Integrator1'
+  rtX.Integrator1_CSTATE[2] = 0.0;
 
   // InitializeConditions for Integrator: '<S3>/right'
   rtX.right_CSTATE[2] = 0.0;
@@ -1042,20 +1076,8 @@ void SignalDmp::initialize()
   // InitializeConditions for Integrator: '<S3>/Integrator5'
   rtX.Integrator5_CSTATE[2] = 0.0;
 
-  // InitializeConditions for Integrator: '<S5>/Integrator1'
-  rtX.Integrator1_CSTATE[2] = 0.0;
-
-  // InitializeConditions for Integrator: '<S5>/Integrator'
-  rtX.Integrator_CSTATE[2] = 0.0;
-
-  // InitializeConditions for Integrator: '<S2>/left'
-  rtX.left_CSTATE[2] = left_0[2];
-
-  // InitializeConditions for Integrator: '<S2>/Integrator3'
-  rtX.Integrator3_CSTATE[2] = 0.0;
-
-  // InitializeConditions for Integrator: '<S2>/Integrator2'
-  rtX.Integrator2_CSTATE = 1.0;
+  // InitializeConditions for Integrator: '<S3>/Integrator4'
+  rtX.Integrator4_CSTATE = 1.0;
 
   // InitializeConditions for TransferFcn: '<Root>/Gm '
   rtX.Gm_CSTATE[0] = 0.0;

@@ -3,9 +3,9 @@
 //
 // Code generated for Simulink model 'couple_dmp_test'.
 //
-// Model version                  : 1.13
+// Model version                  : 1.14
 // Simulink Coder version         : 9.4 (R2020b) 29-Jul-2020
-// C/C++ source code generated on : Wed Dec 13 20:37:18 2023
+// C/C++ source code generated on : Thu Dec 14 13:51:02 2023
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Intel->x86-64 (Windows64)
@@ -74,19 +74,10 @@ typedef struct {
 //
 
 extern real_T g1[3];                   // Variable: g1
-                                          //  Referenced by: '<S2>/Constant2'
+                                          //  Referenced by: '<Root>/Constant'
 
 extern real_T g2[3];                   // Variable: g2
-                                          //  Referenced by: '<S3>/Constant1'
-
-
-// Exported data declaration
-
-// Const memory section
-// Declaration for custom storage class: Const
-extern const real_T left_0[3];         // Referenced by:
-                                          //  '<S2>/Constant4'
-                                          //  '<S2>/left'
+                                          //  Referenced by: '<Root>/Constant1'
 
 
 // Class declaration for model couple_dmp_test
@@ -95,20 +86,20 @@ class SignalDmp {
  public:
   // Block signals and states (default storage) for system '<Root>'
   typedef struct {
-    real_T Gain32[3];                  // '<S3>/Gain32'
+    real_T Gain30[3];                  // '<S2>/Gain30'
     real_T m_X1[3];                    // '<S5>/x1'
     real_T m_X2[3];                    // '<S5>/x2'
+    real_T m_X3dot[3];                 // '<S2>/Integrator3'
+    real_T m_X3[3];                    // '<S2>/left'
+    real_T Gain27[3];                  // '<S2>/Gain27'
+    real_T m_X2dot[3];                 // '<S5>/Integrator'
+    real_T m_X1dot[3];                 // '<S5>/Integrator1'
+    real_T Add[3];                     // '<S5>/Add'
     real_T m_X4[3];                    // '<S3>/right'
     real_T m_X4dot[3];                 // '<S3>/Integrator5'
-    real_T Gain18[3];                  // '<S3>/Gain18'
-    real_T m_X1dot[3];                 // '<S5>/Integrator1'
-    real_T m_X2dot[3];                 // '<S5>/Integrator'
     real_T Add1[3];                    // '<S5>/Add1'
-    real_T m_X3[3];                    // '<S2>/left'
-    real_T m_X3dot[3];                 // '<S2>/Integrator3'
-    real_T Add[3];                     // '<S5>/Add'
-    real_T Gain30[3];                  // '<S2>/Gain30'
-    real_T Gain27[3];                  // '<S2>/Gain27'
+    real_T Gain32[3];                  // '<S3>/Gain32'
+    real_T Gain18[3];                  // '<S3>/Gain18'
     real_T m_Ft;                       // '<Root>/  '
     real_T m_FtXp;                     // '<Root>/   '
     real_T m_Xm;                       // '<Root>/reference model'
@@ -116,10 +107,10 @@ class SignalDmp {
     real_T m_Kt;                       // '<Root>/ '
     real_T Step;                       // '<Root>/Step'
     real_T m_Ktr;                      // '<Root>/     '
-    real_T m_G_right;                  // '<S1>/Gain20'
     real_T m_G_left;                   // '<S1>/Gain22'
-    real_T Gain25;                     // '<S2>/Gain25'
+    real_T m_G_right;                  // '<S1>/Gain20'
     real_T Gain16;                     // '<S3>/Gain16'
+    real_T Gain25;                     // '<S2>/Gain25'
     real_T Gm;                         // '<Root>/Gm '
     real_T Gm_p;                       // '<Root>/Gm  '
     real_T m_Xp;                       // '<S1>/MATLAB Function4'
@@ -127,57 +118,57 @@ class SignalDmp {
 
   // Continuous states (default storage)
   typedef struct {
-    real_T Integrator4_CSTATE;         // '<S3>/Integrator4'
+    real_T Integrator2_CSTATE;         // '<S2>/Integrator2'
     real_T x1_CSTATE[3];               // '<S5>/x1'
     real_T x2_CSTATE[3];               // '<S5>/x2'
     real_T gamma2s_CSTATE;             // '<Root>/gamma2//s'
     real_T referencemodel_CSTATE[2];   // '<Root>/reference model'
     real_T gamma1s_CSTATE;             // '<Root>/-gamma1//s'
+    real_T Integrator3_CSTATE[3];      // '<S2>/Integrator3'
+    real_T left_CSTATE[3];             // '<S2>/left'
+    real_T Integrator_CSTATE[3];       // '<S5>/Integrator'
+    real_T Integrator1_CSTATE[3];      // '<S5>/Integrator1'
     real_T right_CSTATE[3];            // '<S3>/right'
     real_T Integrator5_CSTATE[3];      // '<S3>/Integrator5'
-    real_T Integrator1_CSTATE[3];      // '<S5>/Integrator1'
-    real_T Integrator_CSTATE[3];       // '<S5>/Integrator'
-    real_T left_CSTATE[3];             // '<S2>/left'
-    real_T Integrator3_CSTATE[3];      // '<S2>/Integrator3'
-    real_T Integrator2_CSTATE;         // '<S2>/Integrator2'
+    real_T Integrator4_CSTATE;         // '<S3>/Integrator4'
     real_T Gm_CSTATE[2];               // '<Root>/Gm '
     real_T Gm_CSTATE_e[2];             // '<Root>/Gm  '
   } X;
 
   // State derivatives (default storage)
   typedef struct {
-    real_T Integrator4_CSTATE;         // '<S3>/Integrator4'
+    real_T Integrator2_CSTATE;         // '<S2>/Integrator2'
     real_T x1_CSTATE[3];               // '<S5>/x1'
     real_T x2_CSTATE[3];               // '<S5>/x2'
     real_T gamma2s_CSTATE;             // '<Root>/gamma2//s'
     real_T referencemodel_CSTATE[2];   // '<Root>/reference model'
     real_T gamma1s_CSTATE;             // '<Root>/-gamma1//s'
+    real_T Integrator3_CSTATE[3];      // '<S2>/Integrator3'
+    real_T left_CSTATE[3];             // '<S2>/left'
+    real_T Integrator_CSTATE[3];       // '<S5>/Integrator'
+    real_T Integrator1_CSTATE[3];      // '<S5>/Integrator1'
     real_T right_CSTATE[3];            // '<S3>/right'
     real_T Integrator5_CSTATE[3];      // '<S3>/Integrator5'
-    real_T Integrator1_CSTATE[3];      // '<S5>/Integrator1'
-    real_T Integrator_CSTATE[3];       // '<S5>/Integrator'
-    real_T left_CSTATE[3];             // '<S2>/left'
-    real_T Integrator3_CSTATE[3];      // '<S2>/Integrator3'
-    real_T Integrator2_CSTATE;         // '<S2>/Integrator2'
+    real_T Integrator4_CSTATE;         // '<S3>/Integrator4'
     real_T Gm_CSTATE[2];               // '<Root>/Gm '
     real_T Gm_CSTATE_e[2];             // '<Root>/Gm  '
   } XDot;
 
   // State disabled
   typedef struct {
-    boolean_T Integrator4_CSTATE;      // '<S3>/Integrator4'
+    boolean_T Integrator2_CSTATE;      // '<S2>/Integrator2'
     boolean_T x1_CSTATE[3];            // '<S5>/x1'
     boolean_T x2_CSTATE[3];            // '<S5>/x2'
     boolean_T gamma2s_CSTATE;          // '<Root>/gamma2//s'
     boolean_T referencemodel_CSTATE[2];// '<Root>/reference model'
     boolean_T gamma1s_CSTATE;          // '<Root>/-gamma1//s'
+    boolean_T Integrator3_CSTATE[3];   // '<S2>/Integrator3'
+    boolean_T left_CSTATE[3];          // '<S2>/left'
+    boolean_T Integrator_CSTATE[3];    // '<S5>/Integrator'
+    boolean_T Integrator1_CSTATE[3];   // '<S5>/Integrator1'
     boolean_T right_CSTATE[3];         // '<S3>/right'
     boolean_T Integrator5_CSTATE[3];   // '<S3>/Integrator5'
-    boolean_T Integrator1_CSTATE[3];   // '<S5>/Integrator1'
-    boolean_T Integrator_CSTATE[3];    // '<S5>/Integrator'
-    boolean_T left_CSTATE[3];          // '<S2>/left'
-    boolean_T Integrator3_CSTATE[3];   // '<S2>/Integrator3'
-    boolean_T Integrator2_CSTATE;      // '<S2>/Integrator2'
+    boolean_T Integrator4_CSTATE;      // '<S3>/Integrator4'
     boolean_T Gm_CSTATE[2];            // '<Root>/Gm '
     boolean_T Gm_CSTATE_e[2];          // '<Root>/Gm  '
   } XDis;
@@ -290,7 +281,7 @@ class SignalDmp {
   };
 
   // model initialize function
-  void initialize();
+  void initialize(real_T ini_g1[3], real_T ini_g2[3]);
 
   // model step function
   void step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T arg_X4[3]);
