@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoupleDMP_1213", "CoupleDMP_1213.vcxproj", "{31497103-DD96-4697-B6AA-7565E7AADB72}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Couple_dmp_exe", "..\Couple_dmp_exe\Couple_dmp_exe.vdproj", "{C4113BA0-E15D-4BBC-A1BD-2D0DEF5FF072}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,10 @@ Global
 		{31497103-DD96-4697-B6AA-7565E7AADB72}.Release|x64.Build.0 = Release|x64
 		{31497103-DD96-4697-B6AA-7565E7AADB72}.Release|x86.ActiveCfg = Release|Win32
 		{31497103-DD96-4697-B6AA-7565E7AADB72}.Release|x86.Build.0 = Release|Win32
+		{C4113BA0-E15D-4BBC-A1BD-2D0DEF5FF072}.Debug|x64.ActiveCfg = Debug
+		{C4113BA0-E15D-4BBC-A1BD-2D0DEF5FF072}.Debug|x86.ActiveCfg = Debug
+		{C4113BA0-E15D-4BBC-A1BD-2D0DEF5FF072}.Release|x64.ActiveCfg = Release
+		{C4113BA0-E15D-4BBC-A1BD-2D0DEF5FF072}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

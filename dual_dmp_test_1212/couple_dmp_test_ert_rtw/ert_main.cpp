@@ -37,6 +37,8 @@ static real_T arg_X3[3];
 // '<Root>/X4'
 static real_T arg_X4[3];
 
+int count = 0;
+
 //
 // Associating rt_OneStep with a real-time clock or interrupt service routine
 // is what makes the generated code "real-time".  The function rt_OneStep is
@@ -71,10 +73,17 @@ void rt_OneStep(void)
   rtObj.step(arg_m_Xp, arg_m_e, arg_X3, arg_X4);
 
   // Get model outputs here
-  std::cout << "local_arg_m_Xp: " << local_arg_m_Xp << std::endl;
-  std::cout << "local_arg_m_e: " << local_arg_m_e << std::endl;
-  std::cout << "arg_X3: " << arg_X3[0] << arg_X3[1] << arg_X3[2] << std::endl;
-  std::cout << "arg_X4: " << arg_X4[0] << arg_X4[1] << arg_X4[2] << std::endl;
+  count += 1;
+  std::cout << "count: " << count;
+  std::cout << ", local_arg_m_Xp: " << local_arg_m_Xp;
+  std::cout << ", local_arg_m_e: " << local_arg_m_e;
+  std::cout << ", arg_X3[0]: " << arg_X3[0];
+  std::cout << ", arg_X3[1]: " << arg_X3[1];
+  std::cout << ", arg_X3[2]: " << arg_X3[2];
+  std::cout << ", arg_X4[0]: " << arg_X4[0];
+  std::cout << ", arg_X4[1]: " << arg_X4[1];
+  std::cout << ", arg_X4[2]: " << arg_X4[2];
+  std::cout << std::endl;
 
   std::string input;
   std::getline(std::cin, input);
