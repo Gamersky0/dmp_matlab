@@ -3,9 +3,9 @@
 //
 // Code generated for Simulink model 'couple_dmp_test'.
 //
-// Model version                  : 1.14
+// Model version                  : 1.15
 // Simulink Coder version         : 9.4 (R2020b) 29-Jul-2020
-// C/C++ source code generated on : Thu Dec 14 13:51:02 2023
+// C/C++ source code generated on : Tue Dec 19 15:22:18 2023
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Intel->x86-64 (Windows64)
@@ -248,9 +248,8 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   real_T Add_tmp;
   real_T Add_tmp_0;
   real_T absxk;
+  real_T rtb_Add2;
   real_T rtb_OUT_m;
-  real_T rtb_y_i_idx_1;
-  real_T rtb_y_i_idx_2;
   real_T scale;
   real_T t;
   int32_T k;
@@ -405,9 +404,28 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   // Integrator: '<S2>/left'
   rtDW.m_X3[0] = rtX.left_CSTATE[0];
 
+  // Gain: '<S2>/Gain27' incorporates:
+  //   Constant: '<Root>/Constant'
+  //   Gain: '<S2>/Gain26'
+  //   Gain: '<S2>/Gain28'
+  //   Gain: '<S2>/Gain29'
+  //   Integrator: '<S2>/Integrator2'
+  //   Product: '<S2>/Product'
+  //   Sum: '<S2>/Add4'
+  //   Sum: '<S2>/Sum6'
+
+  rtDW.Gain27[0] = ((((1050.0 * rtb_OUT[0] + -194.421 * rtDW.m_X3dot[0]) + (g1[0]
+    - rtDW.m_X3[0]) * 1050.0) + rtDW.Gain30[0] * rtX.Integrator2_CSTATE) +
+                    rtDW.m_G_left) * 0.1111111111111111;
+
+  // Outport: '<Root>/X3'
+  arg_X3[0] = rtDW.m_X3[0];
+
   // MATLAB Function: '<S2>/Right_3D'
+  rtDW.m_obs_weight_l[0] = 0.0;
   absxk = (rtDW.m_X3[0] - 0.15) / 0.1;
   scale = absxk * absxk;
+  rtDW.m_obs_weight_l[0] = (rtDW.m_X3[0] - 0.15) / 0.010000000000000002;
 
   // Integrator: '<S2>/Integrator3'
   rtDW.m_X3dot[1] = rtX.Integrator3_CSTATE[1];
@@ -415,9 +433,28 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   // Integrator: '<S2>/left'
   rtDW.m_X3[1] = rtX.left_CSTATE[1];
 
+  // Gain: '<S2>/Gain27' incorporates:
+  //   Constant: '<Root>/Constant'
+  //   Gain: '<S2>/Gain26'
+  //   Gain: '<S2>/Gain28'
+  //   Gain: '<S2>/Gain29'
+  //   Integrator: '<S2>/Integrator2'
+  //   Product: '<S2>/Product'
+  //   Sum: '<S2>/Add4'
+  //   Sum: '<S2>/Sum6'
+
+  rtDW.Gain27[1] = ((((1050.0 * rtb_OUT[1] + -194.421 * rtDW.m_X3dot[1]) + (g1[1]
+    - rtDW.m_X3[1]) * 1050.0) + rtDW.Gain30[1] * rtX.Integrator2_CSTATE) +
+                    rtDW.m_G_left) * 0.1111111111111111;
+
+  // Outport: '<Root>/X3'
+  arg_X3[1] = rtDW.m_X3[1];
+
   // MATLAB Function: '<S2>/Right_3D'
+  rtDW.m_obs_weight_l[1] = 0.0;
   absxk = (rtDW.m_X3[1] - 0.2) / 0.1;
   scale += absxk * absxk;
+  rtDW.m_obs_weight_l[1] = (rtDW.m_X3[1] - 0.2) / 0.010000000000000002;
 
   // Integrator: '<S2>/Integrator3'
   rtDW.m_X3dot[2] = rtX.Integrator3_CSTATE[2];
@@ -425,35 +462,32 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   // Integrator: '<S2>/left'
   rtDW.m_X3[2] = rtX.left_CSTATE[2];
 
-  // MATLAB Function: '<S2>/Right_3D'
-  absxk = (rtDW.m_X3[2] - 0.4) / 0.1;
-  scale += absxk * absxk;
-  scale--;
-  absxk = std::exp(-scale);
-  scale = 1.0 / scale / scale + 1.0 / scale;
-
-  // Gain: '<S1>/Gain20'
-  rtDW.m_G_right = -5.0 * t;
-
   // Gain: '<S2>/Gain27' incorporates:
   //   Constant: '<Root>/Constant'
   //   Gain: '<S2>/Gain26'
   //   Gain: '<S2>/Gain28'
   //   Gain: '<S2>/Gain29'
   //   Integrator: '<S2>/Integrator2'
-  //   MATLAB Function: '<S2>/Right_3D'
   //   Product: '<S2>/Product'
   //   Sum: '<S2>/Add4'
   //   Sum: '<S2>/Sum6'
 
-  rtDW.Gain27[0] = (((((1050.0 * rtb_OUT[0] + -194.421 * rtDW.m_X3dot[0]) + (g1
-    [0] - rtDW.m_X3[0]) * 1050.0) + rtDW.Gain30[0] * rtX.Integrator2_CSTATE) +
-                     rtDW.m_G_left) + (rtDW.m_X3[0] - 0.15) /
-                    0.010000000000000002 * absxk * scale * 2.0) *
-    0.1111111111111111;
+  rtDW.Gain27[2] = ((((1050.0 * rtb_OUT[2] + -194.421 * rtDW.m_X3dot[2]) + (g1[2]
+    - rtDW.m_X3[2]) * 1050.0) + rtDW.Gain30[2] * rtX.Integrator2_CSTATE) +
+                    rtDW.m_G_left) * 0.1111111111111111;
 
   // Outport: '<Root>/X3'
-  arg_X3[0] = rtDW.m_X3[0];
+  arg_X3[2] = rtDW.m_X3[2];
+
+  // MATLAB Function: '<S2>/Right_3D'
+  rtDW.m_obs_weight_l[2] = 0.0;
+  absxk = (rtDW.m_X3[2] - 0.4) / 0.1;
+  scale += absxk * absxk;
+  rtDW.m_obs_weight_l[2] = (rtDW.m_X3[2] - 0.4) / 0.010000000000000002;
+  scale--;
+  absxk = std::exp(-scale);
+  scale = 1.0 / scale / scale + 1.0 / scale;
+  rtDW.m_obs_weight_l[0] = rtDW.m_obs_weight_l[0] * absxk * scale * 2.0;
 
   // Integrator: '<S5>/Integrator'
   rtDW.m_X2dot[0] = rtX.Integrator_CSTATE[0];
@@ -469,7 +503,7 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   // Gain: '<S5>/Gain6' incorporates:
   //   Gain: '<S5>/Gain9'
 
-  rtb_y_i_idx_2 = rtP.b2 * rtDW.m_X1dot[0];
+  rtb_Add2 = rtP.b2 * rtDW.m_X1dot[0];
 
   // Gain: '<S5>/Gain1' incorporates:
   //   Gain: '<S5>/Gain11'
@@ -489,7 +523,7 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
 
   rtDW.Add[0] = ((((((rtP.k1 * rtDW.m_X3[0] + Add_tmp_0) + Add_tmp) + rtP.b1 *
                     rtDW.m_X3dot[0]) - rtP.k1 * rtDW.m_X1[0]) - rtb_OUT_m) -
-                 rtP.b1 * rtDW.m_X1dot[0]) - rtb_y_i_idx_2;
+                 rtP.b1 * rtDW.m_X1dot[0]) - rtb_Add2;
 
   // Integrator: '<S3>/right'
   rtDW.m_X4[0] = rtX.right_CSTATE[0];
@@ -503,32 +537,15 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   //   Gain: '<S5>/Gain14'
   //   Gain: '<S5>/Gain8'
 
-  rtDW.Add1[0] = ((((((rtP.k3 * rtDW.m_X4[0] + rtb_OUT_m) + rtb_y_i_idx_2) +
-                     rtP.b3 * rtDW.m_X4dot[0]) - Add_tmp) - Add_tmp_0) - rtP.k3 *
+  rtDW.Add1[0] = ((((((rtP.k3 * rtDW.m_X4[0] + rtb_OUT_m) + rtb_Add2) + rtP.b3 *
+                     rtDW.m_X4dot[0]) - Add_tmp) - Add_tmp_0) - rtP.k3 *
                   rtDW.m_X2[0]) - rtP.b3 * rtDW.m_X2dot[0];
 
+  // Gain: '<S5>/Gain6'
+  rtb_OUT[0] = rtb_Add2;
+
   // MATLAB Function: '<S2>/Right_3D'
-  t = 0.0;
-
-  // Gain: '<S2>/Gain27' incorporates:
-  //   Constant: '<Root>/Constant'
-  //   Gain: '<S2>/Gain26'
-  //   Gain: '<S2>/Gain28'
-  //   Gain: '<S2>/Gain29'
-  //   Integrator: '<S2>/Integrator2'
-  //   MATLAB Function: '<S2>/Right_3D'
-  //   Product: '<S2>/Product'
-  //   Sum: '<S2>/Add4'
-  //   Sum: '<S2>/Sum6'
-
-  rtDW.Gain27[1] = (((((1050.0 * rtb_OUT[1] + -194.421 * rtDW.m_X3dot[1]) + (g1
-    [1] - rtDW.m_X3[1]) * 1050.0) + rtDW.Gain30[1] * rtX.Integrator2_CSTATE) +
-                     rtDW.m_G_left) + (rtDW.m_X3[1] - 0.2) /
-                    0.010000000000000002 * absxk * scale * 2.0) *
-    0.1111111111111111;
-
-  // Outport: '<Root>/X3'
-  arg_X3[1] = rtDW.m_X3[1];
+  rtDW.m_obs_weight_l[1] = rtDW.m_obs_weight_l[1] * absxk * scale * 2.0;
 
   // Integrator: '<S5>/Integrator'
   rtDW.m_X2dot[1] = rtX.Integrator_CSTATE[1];
@@ -544,7 +561,7 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   // Gain: '<S5>/Gain6' incorporates:
   //   Gain: '<S5>/Gain9'
 
-  rtb_y_i_idx_2 = rtP.b2 * rtDW.m_X1dot[1];
+  rtb_Add2 = rtP.b2 * rtDW.m_X1dot[1];
 
   // Gain: '<S5>/Gain1' incorporates:
   //   Gain: '<S5>/Gain11'
@@ -564,7 +581,7 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
 
   rtDW.Add[1] = ((((((rtP.k1 * rtDW.m_X3[1] + Add_tmp_0) + Add_tmp) + rtP.b1 *
                     rtDW.m_X3dot[1]) - rtP.k1 * rtDW.m_X1[1]) - rtb_OUT_m) -
-                 rtP.b1 * rtDW.m_X1dot[1]) - rtb_y_i_idx_2;
+                 rtP.b1 * rtDW.m_X1dot[1]) - rtb_Add2;
 
   // Integrator: '<S3>/right'
   rtDW.m_X4[1] = rtX.right_CSTATE[1];
@@ -578,32 +595,15 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   //   Gain: '<S5>/Gain14'
   //   Gain: '<S5>/Gain8'
 
-  rtDW.Add1[1] = ((((((rtP.k3 * rtDW.m_X4[1] + rtb_OUT_m) + rtb_y_i_idx_2) +
-                     rtP.b3 * rtDW.m_X4dot[1]) - Add_tmp) - Add_tmp_0) - rtP.k3 *
+  rtDW.Add1[1] = ((((((rtP.k3 * rtDW.m_X4[1] + rtb_OUT_m) + rtb_Add2) + rtP.b3 *
+                     rtDW.m_X4dot[1]) - Add_tmp) - Add_tmp_0) - rtP.k3 *
                   rtDW.m_X2[1]) - rtP.b3 * rtDW.m_X2dot[1];
 
+  // Gain: '<S5>/Gain6'
+  rtb_OUT[1] = rtb_Add2;
+
   // MATLAB Function: '<S2>/Right_3D'
-  rtb_y_i_idx_1 = 0.0;
-
-  // Gain: '<S2>/Gain27' incorporates:
-  //   Constant: '<Root>/Constant'
-  //   Gain: '<S2>/Gain26'
-  //   Gain: '<S2>/Gain28'
-  //   Gain: '<S2>/Gain29'
-  //   Integrator: '<S2>/Integrator2'
-  //   MATLAB Function: '<S2>/Right_3D'
-  //   Product: '<S2>/Product'
-  //   Sum: '<S2>/Add4'
-  //   Sum: '<S2>/Sum6'
-
-  rtDW.Gain27[2] = (((((1050.0 * rtb_OUT[2] + -194.421 * rtDW.m_X3dot[2]) + (g1
-    [2] - rtDW.m_X3[2]) * 1050.0) + rtDW.Gain30[2] * rtX.Integrator2_CSTATE) +
-                     rtDW.m_G_left) + (rtDW.m_X3[2] - 0.4) /
-                    0.010000000000000002 * absxk * scale * 2.0) *
-    0.1111111111111111;
-
-  // Outport: '<Root>/X3'
-  arg_X3[2] = rtDW.m_X3[2];
+  rtDW.m_obs_weight_l[2] = rtDW.m_obs_weight_l[2] * absxk * scale * 2.0;
 
   // Integrator: '<S5>/Integrator'
   rtDW.m_X2dot[2] = rtX.Integrator_CSTATE[2];
@@ -619,7 +619,7 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   // Gain: '<S5>/Gain6' incorporates:
   //   Gain: '<S5>/Gain9'
 
-  rtb_y_i_idx_2 = rtP.b2 * rtDW.m_X1dot[2];
+  rtb_Add2 = rtP.b2 * rtDW.m_X1dot[2];
 
   // Gain: '<S5>/Gain1' incorporates:
   //   Gain: '<S5>/Gain11'
@@ -639,7 +639,7 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
 
   rtDW.Add[2] = ((((((rtP.k1 * rtDW.m_X3[2] + Add_tmp_0) + Add_tmp) + rtP.b1 *
                     rtDW.m_X3dot[2]) - rtP.k1 * rtDW.m_X1[2]) - rtb_OUT_m) -
-                 rtP.b1 * rtDW.m_X1dot[2]) - rtb_y_i_idx_2;
+                 rtP.b1 * rtDW.m_X1dot[2]) - rtb_Add2;
 
   // Integrator: '<S3>/right'
   rtDW.m_X4[2] = rtX.right_CSTATE[2];
@@ -653,50 +653,27 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   //   Gain: '<S5>/Gain14'
   //   Gain: '<S5>/Gain8'
 
-  rtDW.Add1[2] = ((((((rtP.k3 * rtDW.m_X4[2] + rtb_OUT_m) + rtb_y_i_idx_2) +
-                     rtP.b3 * rtDW.m_X4dot[2]) - Add_tmp) - Add_tmp_0) - rtP.k3 *
+  rtDW.Add1[2] = ((((((rtP.k3 * rtDW.m_X4[2] + rtb_OUT_m) + rtb_Add2) + rtP.b3 *
+                     rtDW.m_X4dot[2]) - Add_tmp) - Add_tmp_0) - rtP.k3 *
                   rtDW.m_X2[2]) - rtP.b3 * rtDW.m_X2dot[2];
 
-  // MATLAB Function: '<S2>/Right_3D'
-  rtb_y_i_idx_2 = 0.0;
+  // Gain: '<S5>/Gain6'
+  rtb_OUT[2] = rtb_Add2;
 
-  // MATLAB Function: '<S3>/3D'
-  for (k = 0; k < 2; k++) {
-    rtb_OUT_m = axis[k];
-    Add_tmp = rtDW.m_X4[0] - center[k];
-    absxk = Add_tmp / rtb_OUT_m;
-    scale = absxk * absxk;
-    rtb_OUT[0] = Add_tmp / (rtb_OUT_m * rtb_OUT_m);
-    rtb_OUT_m = axis[k + 2];
-    Add_tmp = rtDW.m_X4[1] - center[k + 2];
-    absxk = Add_tmp / rtb_OUT_m;
-    scale += absxk * absxk;
-    rtb_OUT[1] = Add_tmp / (rtb_OUT_m * rtb_OUT_m);
-    rtb_OUT_m = axis[k + 4];
-    Add_tmp = rtDW.m_X4[2] - center[k + 4];
-    absxk = Add_tmp / rtb_OUT_m;
-    scale += absxk * absxk;
-    rtb_OUT[2] = Add_tmp / (rtb_OUT_m * rtb_OUT_m);
-    scale--;
-    absxk = std::exp(-scale);
-    scale = 1.0 / scale / scale + 1.0 / scale;
-    rtb_OUT_m = rtb_OUT[0] * absxk * scale * 2.0;
-    rtb_OUT[0] = rtb_OUT_m;
-    t += rtb_OUT_m;
-    rtb_OUT_m = rtb_OUT[1] * absxk * scale * 2.0;
-    rtb_OUT[1] = rtb_OUT_m;
-    rtb_y_i_idx_1 += rtb_OUT_m;
-    rtb_OUT_m = rtb_OUT[2] * absxk * scale * 2.0;
-    rtb_OUT[2] = rtb_OUT_m;
-    rtb_y_i_idx_2 += rtb_OUT_m;
-  }
-
-  // End of MATLAB Function: '<S3>/3D'
+  // Gain: '<S1>/Gain20'
+  rtDW.m_G_right = -5.0 * t;
 
   // MATLAB Function: '<S3>/MATLAB Function2' incorporates:
   //   Integrator: '<S3>/Integrator4'
 
   MATLABFunction14(rtX.Integrator4_CSTATE, rtb_OUT);
+
+  // Sum: '<S3>/Add2' incorporates:
+  //   Gain: '<S3>/Gain17'
+
+  rtb_OUT[0] *= 1050.0;
+  rtb_OUT[1] *= 1050.0;
+  rtb_OUT[2] *= 1050.0;
   if (rtmIsMajorTimeStep((&rtM))) {
     // Gain: '<S3>/Gain32' incorporates:
     //   Constant: '<Root>/Constant1'
@@ -709,7 +686,6 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
 
   // Gain: '<S3>/Gain18' incorporates:
   //   Constant: '<Root>/Constant1'
-  //   Gain: '<S3>/Gain17'
   //   Gain: '<S3>/Gain19'
   //   Gain: '<S3>/Gain31'
   //   Integrator: '<S3>/Integrator4'
@@ -717,16 +693,18 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   //   Sum: '<S3>/Add2'
   //   Sum: '<S3>/Sum2'
 
-  rtDW.Gain18[0] = (((((1050.0 * rtb_OUT[0] + -194.421 * rtDW.m_X4dot[0]) + (g2
-    [0] - rtDW.m_X4[0]) * 1050.0) + rtDW.Gain32[0] * rtX.Integrator4_CSTATE) +
-                     rtDW.m_G_right) + t) * 0.1111111111111111;
+  rtDW.Gain18[0] = ((((-194.421 * rtDW.m_X4dot[0] + rtb_OUT[0]) + (g2[0] -
+    rtDW.m_X4[0]) * 1050.0) + rtDW.Gain32[0] * rtX.Integrator4_CSTATE) +
+                    rtDW.m_G_right) * 0.1111111111111111;
 
   // Outport: '<Root>/X4'
   arg_X4[0] = rtDW.m_X4[0];
 
+  // MATLAB Function: '<S3>/3D'
+  rtDW.m_obs_weight_r[0] = 0.0;
+
   // Gain: '<S3>/Gain18' incorporates:
   //   Constant: '<Root>/Constant1'
-  //   Gain: '<S3>/Gain17'
   //   Gain: '<S3>/Gain19'
   //   Gain: '<S3>/Gain31'
   //   Integrator: '<S3>/Integrator4'
@@ -734,16 +712,18 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   //   Sum: '<S3>/Add2'
   //   Sum: '<S3>/Sum2'
 
-  rtDW.Gain18[1] = (((((1050.0 * rtb_OUT[1] + -194.421 * rtDW.m_X4dot[1]) + (g2
-    [1] - rtDW.m_X4[1]) * 1050.0) + rtDW.Gain32[1] * rtX.Integrator4_CSTATE) +
-                     rtDW.m_G_right) + rtb_y_i_idx_1) * 0.1111111111111111;
+  rtDW.Gain18[1] = ((((-194.421 * rtDW.m_X4dot[1] + rtb_OUT[1]) + (g2[1] -
+    rtDW.m_X4[1]) * 1050.0) + rtDW.Gain32[1] * rtX.Integrator4_CSTATE) +
+                    rtDW.m_G_right) * 0.1111111111111111;
 
   // Outport: '<Root>/X4'
   arg_X4[1] = rtDW.m_X4[1];
 
+  // MATLAB Function: '<S3>/3D'
+  rtDW.m_obs_weight_r[1] = 0.0;
+
   // Gain: '<S3>/Gain18' incorporates:
   //   Constant: '<Root>/Constant1'
-  //   Gain: '<S3>/Gain17'
   //   Gain: '<S3>/Gain19'
   //   Gain: '<S3>/Gain31'
   //   Integrator: '<S3>/Integrator4'
@@ -751,12 +731,37 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   //   Sum: '<S3>/Add2'
   //   Sum: '<S3>/Sum2'
 
-  rtDW.Gain18[2] = (((((1050.0 * rtb_OUT[2] + -194.421 * rtDW.m_X4dot[2]) + (g2
-    [2] - rtDW.m_X4[2]) * 1050.0) + rtDW.Gain32[2] * rtX.Integrator4_CSTATE) +
-                     rtDW.m_G_right) + rtb_y_i_idx_2) * 0.1111111111111111;
+  rtDW.Gain18[2] = ((((-194.421 * rtDW.m_X4dot[2] + rtb_OUT[2]) + (g2[2] -
+    rtDW.m_X4[2]) * 1050.0) + rtDW.Gain32[2] * rtX.Integrator4_CSTATE) +
+                    rtDW.m_G_right) * 0.1111111111111111;
 
   // Outport: '<Root>/X4'
   arg_X4[2] = rtDW.m_X4[2];
+
+  // MATLAB Function: '<S3>/3D'
+  rtDW.m_obs_weight_r[2] = 0.0;
+  for (k = 0; k < 2; k++) {
+    rtb_OUT_m = axis[k];
+    t = rtDW.m_X4[0] - center[k];
+    absxk = t / rtb_OUT_m;
+    scale = absxk * absxk;
+    rtb_OUT[0] = t / (rtb_OUT_m * rtb_OUT_m);
+    rtb_OUT_m = axis[k + 2];
+    t = rtDW.m_X4[1] - center[k + 2];
+    absxk = t / rtb_OUT_m;
+    scale += absxk * absxk;
+    rtb_OUT[1] = t / (rtb_OUT_m * rtb_OUT_m);
+    rtb_OUT_m = axis[k + 4];
+    t = rtDW.m_X4[2] - center[k + 4];
+    absxk = t / rtb_OUT_m;
+    scale += absxk * absxk;
+    scale--;
+    absxk = std::exp(-scale);
+    scale = 1.0 / scale / scale + 1.0 / scale;
+    rtDW.m_obs_weight_r[0] += rtb_OUT[0] * absxk * scale * 2.0;
+    rtDW.m_obs_weight_r[1] += rtb_OUT[1] * absxk * scale * 2.0;
+    rtDW.m_obs_weight_r[2] += t / (rtb_OUT_m * rtb_OUT_m) * absxk * scale * 2.0;
+  }
 
   // Gain: '<S3>/Gain16' incorporates:
   //   Integrator: '<S3>/Integrator4'
@@ -965,7 +970,7 @@ void SignalDmp::initialize(real_T ini_g1[3], real_T ini_g2[3])
     rtsiSetErrorStatusPtr(&(&rtM)->solverInfo, (&rtmGetErrorStatus((&rtM))));
     rtsiSetRTModelPtr(&(&rtM)->solverInfo, (&rtM));
   }
-  
+
   initialize_parameters_uc(ini_g1, ini_g2);
   print_parameters();
 

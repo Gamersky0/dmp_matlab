@@ -3,9 +3,9 @@
 //
 // Code generated for Simulink model 'couple_dmp_test'.
 //
-// Model version                  : 1.14
+// Model version                  : 1.15
 // Simulink Coder version         : 9.4 (R2020b) 29-Jul-2020
-// C/C++ source code generated on : Thu Dec 14 13:51:02 2023
+// C/C++ source code generated on : Tue Dec 19 15:22:18 2023
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Intel->x86-64 (Windows64)
@@ -100,6 +100,8 @@ class SignalDmp {
     real_T Add1[3];                    // '<S5>/Add1'
     real_T Gain32[3];                  // '<S3>/Gain32'
     real_T Gain18[3];                  // '<S3>/Gain18'
+    real_T m_obs_weight_r[3];          // '<S3>/3D'
+    real_T m_obs_weight_l[3];          // '<S2>/Right_3D'
     real_T m_Ft;                       // '<Root>/  '
     real_T m_FtXp;                     // '<Root>/   '
     real_T m_Xm;                       // '<Root>/reference model'

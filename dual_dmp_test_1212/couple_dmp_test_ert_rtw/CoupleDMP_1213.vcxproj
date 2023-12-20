@@ -22,6 +22,7 @@
     <VCProjectVersion>17.0</VCProjectVersion>
     <ProjectGuid>{31497103-DD96-4697-B6AA-7565E7AADB72}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
+    <ProjectName>CoupleDMP_1213_with_predefined_obstacle</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

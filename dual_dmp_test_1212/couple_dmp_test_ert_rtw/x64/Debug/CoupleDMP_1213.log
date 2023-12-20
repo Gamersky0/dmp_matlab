@@ -1,3 +1,3 @@
-﻿D:\Workspace\VS2022\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: 中间目录(x64\Debug\)包含从另一个项目(actual_dual_dmp_test.vcxproj)共享的文件。   这会导致错误的清除和重新生成行为。
+﻿D:\Workspace\VS2022\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: 中间目录(x64\Debug\)包含从另一个项目(actual_dual_dmp_test.vcxproj, CoupleDMP_1213.vcxproj)共享的文件。   这会导致错误的清除和重新生成行为。
   ert_main.cpp
-  CoupleDMP_1213.vcxproj -> C:\Users\10788\Desktop\RALMatlab\dual_dmp_test_1212\couple_dmp_test_ert_rtw\x64\Debug\CoupleDMP_1213.exe
+  CoupleDMP_1213.vcxproj -> C:\Users\10788\Desktop\RALMatlab\dual_dmp_test_1212\couple_dmp_test_ert_rtw\x64\Debug\CoupleDMP_1213_with_predefined_obstacle.exe
