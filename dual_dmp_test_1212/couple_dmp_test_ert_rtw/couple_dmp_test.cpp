@@ -37,7 +37,9 @@ real_T g1[3] = { -1.0, 0.0, 1.0 } ;    // Variable: g1
 
 real_T g2[3] = { -1.0, 0.6, 1.0 } ;    // Variable: g2
                                           //  Referenced by: '<Root>/Constant1'
-
+static double arg_uc_Xp;
+static int arg_uc_count;
+static bool arg_uc_use_pybullet;
 
 // private model entry point functions
 extern void couple_dmp_test_derivatives(real_T *arg_m_Xp, real_T *arg_m_e,
@@ -187,7 +189,7 @@ void SignalDmp::rt_ertODEUpdateContinuousStates(RTWSolverInfo *si , real_T
       (stagesIdx==rtNSTAGES-1)? rtsiSetT(si, tnew) : rtsiSetT(si, t + h*
         rt_ODE8_C[stagesIdx]);
       rtsiSetdX(si, f[stagesIdx]);
-      this->step(arg_m_Xp, arg_m_e, arg_X3, arg_X4);
+      this->step(arg_m_Xp, arg_m_e, arg_X3, arg_X4, arg_uc_Xp, arg_uc_count, arg_uc_use_pybullet);
       couple_dmp_test_derivatives(arg_m_Xp, arg_m_e, arg_X3, arg_X4);
     }
 
@@ -238,7 +240,7 @@ void SignalDmp::MATLABFunction14(real_T rtu_u, real_T rty_out[3])
 
 // Model step function
 void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
-                     arg_X4[3])
+                     arg_X4[3], real_T read_Xp, real_T count, bool use_pybullet)
 {
   static const real_T axis[6] = { 0.1, 0.15, 0.2, 0.15, 0.1, 0.2 };
 
@@ -363,8 +365,19 @@ void SignalDmp::step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T
   rtDW.m_Xm += rtX.referencemodel_CSTATE[0];
   rtDW.m_Xm += 10.0 * rtX.referencemodel_CSTATE[1];
 
-  // Sum: '<Root>/Sum'
-  rtDW.m_e = rtDW.m_Xp - rtDW.m_Xm;
+  //// Sum: '<Root>/Sum'
+  //rtDW.m_e = rtDW.m_Xp - rtDW.m_Xm;
+
+  // Modified
+  if (use_pybullet && count > 100 && read_Xp != 0.0) {
+      rtDW.m_e = read_Xp - rtDW.m_Xm;
+  }
+  else 
+  {
+      rtDW.m_e = rtDW.m_Xp - rtDW.m_Xm;
+  }
+  arg_uc_Xp = read_Xp;
+  arg_uc_count = count;
 
   // Product: '<Root>/ ' incorporates:
   //   TransferFcn: '<Root>/-gamma1//s'

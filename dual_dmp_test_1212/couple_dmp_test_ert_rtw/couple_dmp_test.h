@@ -286,7 +286,7 @@ class SignalDmp {
   void initialize(real_T ini_g1[3], real_T ini_g2[3]);
 
   // model step function
-  void step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T arg_X4[3]);
+  void step(real_T *arg_m_Xp, real_T *arg_m_e, real_T arg_X3[3], real_T arg_X4[3], real_T read_Xp, real_T count, bool use_pybullet);
 
   // Constructor
   SignalDmp();

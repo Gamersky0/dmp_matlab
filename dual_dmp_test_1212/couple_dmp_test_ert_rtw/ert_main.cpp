@@ -37,6 +37,10 @@ static real_T arg_X3[3];
 // '<Root>/X4'
 static real_T arg_X4[3];
 
+static real_T read_Xp = 0.0;
+
+static bool use_pybullet = true;
+
 int count = 0;
 
 //
@@ -70,7 +74,7 @@ void rt_OneStep(void)
   // Set model inputs here
 
   // Step the model for base rate
-  rtObj.step(arg_m_Xp, arg_m_e, arg_X3, arg_X4);
+  rtObj.step(arg_m_Xp, arg_m_e, arg_X3, arg_X4, read_Xp, count, use_pybullet);
 
   // Get model outputs here
   count += 1;
@@ -86,7 +90,19 @@ void rt_OneStep(void)
   std::cout << std::endl;
 
   std::string input;
+  std::string numStr;
   std::getline(std::cin, input);
+  // 判断开头是否为"Xp"
+  if (input.substr(0, 2) == "Xp") {
+      // 找到第一个数字的位置
+      size_t startPos = input.find_first_of("0123456789");
+      if (startPos != std::string::npos) {
+          // 提取数字部分
+          numStr = input.substr(startPos);
+          read_Xp = std::stod(numStr);
+      }
+  }
+
   // Indicate task complete
   OverrunFlag = false;
 
