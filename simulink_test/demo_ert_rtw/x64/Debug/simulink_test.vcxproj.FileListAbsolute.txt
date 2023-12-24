@@ -1,1 +1,0 @@
-C:\Users\10788\Desktop\RALMatlab\simulink_test\demo_ert_rtw\x64\Debug\simulink_test.exe
